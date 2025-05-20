@@ -1,16 +1,23 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
+
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { SidebarTrigger } from "@/components/ui/sidebar";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+  BarChart3,
+  Bell,
+  Calendar,
+  Download,
+  LineChart,
+  PieChart,
+  RefreshCcw,
+  ShoppingBag,
+  Tag,
+  TrendingUp,
+  Users,
+} from "lucide-react";
+
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Select,
   SelectContent,
@@ -18,32 +25,21 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  BarChart3,
-  Calendar,
-  Download,
-  LineChart,
-  PieChart,
-  RefreshCcw,
-  TrendingUp,
-  Users,
-  Tag,
-  Bell,
-  ShoppingBag,
-} from "lucide-react";
+import { SidebarTrigger } from "@/components/ui/sidebar";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function EstadisticasPage() {
   const [periodo, setPeriodo] = useState("mes");
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex h-full flex-col">
       <header className="border-b">
-        <div className="flex h-16 items-center px-4 gap-4">
+        <div className="flex h-16 items-center gap-4 px-4">
           <SidebarTrigger />
           <h1 className="text-xl font-bold">Estadísticas</h1>
         </div>
       </header>
-      <div className="flex justify-between items-center px-6 pt-6 pb-2">
+      <div className="flex items-center justify-between px-6 pb-2 pt-6">
         <h2 className="text-lg font-medium">Panel de Estadísticas</h2>
         <div className="flex items-center gap-4">
           <Select value={periodo} onValueChange={setPeriodo}>
@@ -68,13 +64,11 @@ export default function EstadisticasPage() {
           </Button>
         </div>
       </div>
-      <main className="flex-1 pb-6 px-6 space-y-6">
+      <main className="flex-1 space-y-6 px-6 pb-6">
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <Card className="card-hover">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium">
-                Clientes Totales
-              </CardTitle>
+              <CardTitle className="text-sm font-medium">Clientes Totales</CardTitle>
               <Users className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
@@ -82,17 +76,13 @@ export default function EstadisticasPage() {
               <div className="flex items-center pt-1">
                 <TrendingUp className="mr-1 h-3 w-3 text-green-600" />
                 <span className="text-xs text-green-600">+12%</span>
-                <span className="text-xs text-muted-foreground ml-1">
-                  vs periodo anterior
-                </span>
+                <span className="ml-1 text-xs text-muted-foreground">vs periodo anterior</span>
               </div>
             </CardContent>
           </Card>
           <Card className="card-hover">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium">
-                Ventas Totales
-              </CardTitle>
+              <CardTitle className="text-sm font-medium">Ventas Totales</CardTitle>
               <ShoppingBag className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
@@ -100,33 +90,25 @@ export default function EstadisticasPage() {
               <div className="flex items-center pt-1">
                 <TrendingUp className="mr-1 h-3 w-3 text-green-600" />
                 <span className="text-xs text-green-600">+8%</span>
-                <span className="text-xs text-muted-foreground ml-1">
-                  vs periodo anterior
-                </span>
+                <span className="ml-1 text-xs text-muted-foreground">vs periodo anterior</span>
               </div>
             </CardContent>
           </Card>
           <Card className="card-hover">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium">
-                Promociones Activas
-              </CardTitle>
+              <CardTitle className="text-sm font-medium">Promociones Activas</CardTitle>
               <Tag className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">8</div>
               <div className="flex items-center pt-1">
-                <span className="text-xs text-muted-foreground">
-                  3 finalizan esta semana
-                </span>
+                <span className="text-xs text-muted-foreground">3 finalizan esta semana</span>
               </div>
             </CardContent>
           </Card>
           <Card className="card-hover">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium">
-                Tasa de Conversión
-              </CardTitle>
+              <CardTitle className="text-sm font-medium">Tasa de Conversión</CardTitle>
               <BarChart3 className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
@@ -134,9 +116,7 @@ export default function EstadisticasPage() {
               <div className="flex items-center pt-1">
                 <TrendingUp className="mr-1 h-3 w-3 text-green-600" />
                 <span className="text-xs text-green-600">+4%</span>
-                <span className="text-xs text-muted-foreground ml-1">
-                  vs periodo anterior
-                </span>
+                <span className="ml-1 text-xs text-muted-foreground">vs periodo anterior</span>
               </div>
             </CardContent>
           </Card>
@@ -155,14 +135,12 @@ export default function EstadisticasPage() {
               <Card className="card-hover">
                 <CardHeader>
                   <CardTitle>Ventas por Periodo</CardTitle>
-                  <CardDescription>
-                    Evolución de ventas en el tiempo
-                  </CardDescription>
+                  <CardDescription>Evolución de ventas en el tiempo</CardDescription>
                 </CardHeader>
                 <CardContent className="h-80">
-                  <div className="flex items-center justify-center h-full bg-muted rounded-md">
+                  <div className="flex h-full items-center justify-center rounded-md bg-muted">
                     <div className="flex flex-col items-center text-muted-foreground">
-                      <LineChart className="h-10 w-10 mb-2" />
+                      <LineChart className="mb-2 h-10 w-10" />
                       <p>Gráfico de ventas por periodo</p>
                     </div>
                   </div>
@@ -176,9 +154,9 @@ export default function EstadisticasPage() {
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="h-80">
-                  <div className="flex items-center justify-center h-full bg-muted rounded-md">
+                  <div className="flex h-full items-center justify-center rounded-md bg-muted">
                     <div className="flex flex-col items-center text-muted-foreground">
-                      <PieChart className="h-10 w-10 mb-2" />
+                      <PieChart className="mb-2 h-10 w-10" />
                       <p>Gráfico de ventas por categoría</p>
                     </div>
                   </div>
@@ -187,14 +165,12 @@ export default function EstadisticasPage() {
               <Card className="card-hover md:col-span-2">
                 <CardHeader>
                   <CardTitle>Ventas por Día de la Semana</CardTitle>
-                  <CardDescription>
-                    Análisis de ventas según el día de la semana
-                  </CardDescription>
+                  <CardDescription>Análisis de ventas según el día de la semana</CardDescription>
                 </CardHeader>
                 <CardContent className="h-80">
-                  <div className="flex items-center justify-center h-full bg-muted rounded-md">
+                  <div className="flex h-full items-center justify-center rounded-md bg-muted">
                     <div className="flex flex-col items-center text-muted-foreground">
-                      <BarChart3 className="h-10 w-10 mb-2" />
+                      <BarChart3 className="mb-2 h-10 w-10" />
                       <p>Gráfico de ventas por día de la semana</p>
                     </div>
                   </div>
@@ -208,14 +184,12 @@ export default function EstadisticasPage() {
               <Card className="card-hover">
                 <CardHeader>
                   <CardTitle>Nuevos Clientes</CardTitle>
-                  <CardDescription>
-                    Evolución de nuevos registros
-                  </CardDescription>
+                  <CardDescription>Evolución de nuevos registros</CardDescription>
                 </CardHeader>
                 <CardContent className="h-80">
-                  <div className="flex items-center justify-center h-full bg-muted rounded-md">
+                  <div className="flex h-full items-center justify-center rounded-md bg-muted">
                     <div className="flex flex-col items-center text-muted-foreground">
-                      <LineChart className="h-10 w-10 mb-2" />
+                      <LineChart className="mb-2 h-10 w-10" />
                       <p>Gráfico de nuevos clientes</p>
                     </div>
                   </div>
@@ -224,14 +198,12 @@ export default function EstadisticasPage() {
               <Card className="card-hover">
                 <CardHeader>
                   <CardTitle>Distribución por Nivel</CardTitle>
-                  <CardDescription>
-                    Clientes por nivel de fidelización
-                  </CardDescription>
+                  <CardDescription>Clientes por nivel de fidelización</CardDescription>
                 </CardHeader>
                 <CardContent className="h-80">
-                  <div className="flex items-center justify-center h-full bg-muted rounded-md">
+                  <div className="flex h-full items-center justify-center rounded-md bg-muted">
                     <div className="flex flex-col items-center text-muted-foreground">
-                      <PieChart className="h-10 w-10 mb-2" />
+                      <PieChart className="mb-2 h-10 w-10" />
                       <p>Gráfico de distribución por nivel</p>
                     </div>
                   </div>
@@ -240,14 +212,12 @@ export default function EstadisticasPage() {
               <Card className="card-hover md:col-span-2">
                 <CardHeader>
                   <CardTitle>Retención de Clientes</CardTitle>
-                  <CardDescription>
-                    Tasa de retención y frecuencia de compra
-                  </CardDescription>
+                  <CardDescription>Tasa de retención y frecuencia de compra</CardDescription>
                 </CardHeader>
                 <CardContent className="h-80">
-                  <div className="flex items-center justify-center h-full bg-muted rounded-md">
+                  <div className="flex h-full items-center justify-center rounded-md bg-muted">
                     <div className="flex flex-col items-center text-muted-foreground">
-                      <BarChart3 className="h-10 w-10 mb-2" />
+                      <BarChart3 className="mb-2 h-10 w-10" />
                       <p>Gráfico de retención de clientes</p>
                     </div>
                   </div>
@@ -261,14 +231,12 @@ export default function EstadisticasPage() {
               <Card className="card-hover">
                 <CardHeader>
                   <CardTitle>Uso de Promociones</CardTitle>
-                  <CardDescription>
-                    Número de usos por promoción
-                  </CardDescription>
+                  <CardDescription>Número de usos por promoción</CardDescription>
                 </CardHeader>
                 <CardContent className="h-80">
-                  <div className="flex items-center justify-center h-full bg-muted rounded-md">
+                  <div className="flex h-full items-center justify-center rounded-md bg-muted">
                     <div className="flex flex-col items-center text-muted-foreground">
-                      <BarChart3 className="h-10 w-10 mb-2" />
+                      <BarChart3 className="mb-2 h-10 w-10" />
                       <p>Gráfico de uso de promociones</p>
                     </div>
                   </div>
@@ -277,14 +245,12 @@ export default function EstadisticasPage() {
               <Card className="card-hover">
                 <CardHeader>
                   <CardTitle>Efectividad por Tipo</CardTitle>
-                  <CardDescription>
-                    Tasa de conversión por tipo de promoción
-                  </CardDescription>
+                  <CardDescription>Tasa de conversión por tipo de promoción</CardDescription>
                 </CardHeader>
                 <CardContent className="h-80">
-                  <div className="flex items-center justify-center h-full bg-muted rounded-md">
+                  <div className="flex h-full items-center justify-center rounded-md bg-muted">
                     <div className="flex flex-col items-center text-muted-foreground">
-                      <PieChart className="h-10 w-10 mb-2" />
+                      <PieChart className="mb-2 h-10 w-10" />
                       <p>Gráfico de efectividad por tipo</p>
                     </div>
                   </div>
@@ -293,14 +259,12 @@ export default function EstadisticasPage() {
               <Card className="card-hover md:col-span-2">
                 <CardHeader>
                   <CardTitle>Impacto en Ventas</CardTitle>
-                  <CardDescription>
-                    Incremento de ventas por promoción
-                  </CardDescription>
+                  <CardDescription>Incremento de ventas por promoción</CardDescription>
                 </CardHeader>
                 <CardContent className="h-80">
-                  <div className="flex items-center justify-center h-full bg-muted rounded-md">
+                  <div className="flex h-full items-center justify-center rounded-md bg-muted">
                     <div className="flex flex-col items-center text-muted-foreground">
-                      <LineChart className="h-10 w-10 mb-2" />
+                      <LineChart className="mb-2 h-10 w-10" />
                       <p>Gráfico de impacto en ventas</p>
                     </div>
                   </div>
@@ -314,14 +278,12 @@ export default function EstadisticasPage() {
               <Card className="card-hover">
                 <CardHeader>
                   <CardTitle>Tasa de Apertura</CardTitle>
-                  <CardDescription>
-                    Porcentaje de notificaciones abiertas
-                  </CardDescription>
+                  <CardDescription>Porcentaje de notificaciones abiertas</CardDescription>
                 </CardHeader>
                 <CardContent className="h-80">
-                  <div className="flex items-center justify-center h-full bg-muted rounded-md">
+                  <div className="flex h-full items-center justify-center rounded-md bg-muted">
                     <div className="flex flex-col items-center text-muted-foreground">
-                      <LineChart className="h-10 w-10 mb-2" />
+                      <LineChart className="mb-2 h-10 w-10" />
                       <p>Gráfico de tasa de apertura</p>
                     </div>
                   </div>
@@ -330,14 +292,12 @@ export default function EstadisticasPage() {
               <Card className="card-hover">
                 <CardHeader>
                   <CardTitle>Conversión por Notificación</CardTitle>
-                  <CardDescription>
-                    Tasa de conversión por tipo de notificación
-                  </CardDescription>
+                  <CardDescription>Tasa de conversión por tipo de notificación</CardDescription>
                 </CardHeader>
                 <CardContent className="h-80">
-                  <div className="flex items-center justify-center h-full bg-muted rounded-md">
+                  <div className="flex h-full items-center justify-center rounded-md bg-muted">
                     <div className="flex flex-col items-center text-muted-foreground">
-                      <BarChart3 className="h-10 w-10 mb-2" />
+                      <BarChart3 className="mb-2 h-10 w-10" />
                       <p>Gráfico de conversión por notificación</p>
                     </div>
                   </div>
@@ -346,14 +306,12 @@ export default function EstadisticasPage() {
               <Card className="card-hover md:col-span-2">
                 <CardHeader>
                   <CardTitle>Mejor Hora de Envío</CardTitle>
-                  <CardDescription>
-                    Tasa de apertura según hora del día
-                  </CardDescription>
+                  <CardDescription>Tasa de apertura según hora del día</CardDescription>
                 </CardHeader>
                 <CardContent className="h-80">
-                  <div className="flex items-center justify-center h-full bg-muted rounded-md">
+                  <div className="flex h-full items-center justify-center rounded-md bg-muted">
                     <div className="flex flex-col items-center text-muted-foreground">
-                      <BarChart3 className="h-10 w-10 mb-2" />
+                      <BarChart3 className="mb-2 h-10 w-10" />
                       <p>Gráfico de mejor hora de envío</p>
                     </div>
                   </div>
@@ -372,21 +330,16 @@ export default function EstadisticasPage() {
             <CardContent>
               <div className="space-y-4">
                 {mejoresClientes.map((cliente, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center justify-between"
-                  >
+                  <div key={index} className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-primary-foreground">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground">
                         {index + 1}
                       </div>
                       <div>
                         <p className="font-medium">
                           {cliente.nombre} {cliente.apellido}
                         </p>
-                        <p className="text-xs text-muted-foreground">
-                          {cliente.nivel}
-                        </p>
+                        <p className="text-xs text-muted-foreground">{cliente.nivel}</p>
                       </div>
                     </div>
                     <div className="text-right">
@@ -408,21 +361,16 @@ export default function EstadisticasPage() {
             <CardContent>
               <div className="space-y-4">
                 {promocionesPopulares.map((promocion, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center justify-between"
-                  >
+                  <div key={index} className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <div
-                        className={`flex items-center justify-center w-8 h-8 rounded-full ${getPromocionColor(promocion.tipo)} text-white`}
+                        className={`flex h-8 w-8 items-center justify-center rounded-full ${getPromocionColor(promocion.tipo)} text-white`}
                       >
                         <Tag className="h-4 w-4" />
                       </div>
                       <div>
                         <p className="font-medium">{promocion.nombre}</p>
-                        <p className="text-xs text-muted-foreground">
-                          {promocion.tipo}
-                        </p>
+                        <p className="text-xs text-muted-foreground">{promocion.tipo}</p>
                       </div>
                     </div>
                     <div className="text-right">
@@ -444,19 +392,14 @@ export default function EstadisticasPage() {
             <CardContent>
               <div className="space-y-4">
                 {notificacionesEfectivas.map((notificacion, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center justify-between"
-                  >
+                  <div key={index} className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div className="flex items-center justify-center w-8 h-8 rounded-full bg-blue-500 text-white">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-500 text-white">
                         <Bell className="h-4 w-4" />
                       </div>
                       <div>
                         <p className="font-medium">{notificacion.titulo}</p>
-                        <p className="text-xs text-muted-foreground">
-                          {notificacion.fecha}
-                        </p>
+                        <p className="text-xs text-muted-foreground">{notificacion.fecha}</p>
                       </div>
                     </div>
                     <div className="text-right">

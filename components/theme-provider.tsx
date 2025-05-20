@@ -1,14 +1,13 @@
 "use client";
 
 import type React from "react";
-
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 interface ThemeContextProps {
-  theme: "light" | "dark";
   setTheme: (theme: "light" | "dark") => void;
-  themeColor: string;
   setThemeColor: (color: string) => void;
+  theme: "light" | "dark";
+  themeColor: string;
 }
 
 const ThemeContext = createContext<ThemeContextProps>({
@@ -22,23 +21,19 @@ export const ThemeProvider = ({
   children,
   ...props
 }: {
-  children: React.ReactNode;
   attribute?: string;
+  children: React.ReactNode;
   defaultTheme?: "system" | "light" | "dark";
-  enableSystem?: boolean;
   disableTransitionOnChange?: boolean;
+  enableSystem?: boolean;
 }) => {
   const [theme, setTheme] = useState<"light" | "dark">("light");
   const [themeColor, setThemeColor] = useState<string>("#1e40af"); // Color azul por defecto
 
   useEffect(() => {
-    const storedTheme = localStorage.getItem("theme") as
-      | "light"
-      | "dark"
-      | null;
+    const storedTheme = localStorage.getItem("theme") as "light" | "dark" | null;
     const storedColor = localStorage.getItem("themeColor");
-    const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
-      .matches
+    const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
       ? "dark"
       : "light";
     const initialTheme = storedTheme || systemTheme;
@@ -115,24 +110,16 @@ export const ThemeProvider = ({
     const hsl = hexToHSL(themeColor);
 
     // Actualizar las variables CSS para Tailwind
-    document.documentElement.style.setProperty(
-      "--primary",
-      `${hsl.h} ${hsl.s}% ${hsl.l}%`,
-    );
+    document.documentElement.style.setProperty("--primary", `${hsl.h} ${hsl.s}% ${hsl.l}%`);
 
     // Calcular el color de texto apropiado (blanco o negro) según el brillo del color
     const brightness = hsl.l / 100;
     const textColor = brightness > 0.6 ? "240 10% 3.9%" : "0 0% 98%";
-    document.documentElement.style.setProperty(
-      "--primary-foreground",
-      textColor,
-    );
+    document.documentElement.style.setProperty("--primary-foreground", textColor);
   }, [themeColor]);
 
   return (
-    <ThemeContext.Provider
-      value={{ theme, setTheme, themeColor, setThemeColor }}
-    >
+    <ThemeContext.Provider value={{ theme, setTheme, themeColor, setThemeColor }}>
       {children}
     </ThemeContext.Provider>
   );

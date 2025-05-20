@@ -1,26 +1,22 @@
+import Link from "next/link";
+
+import { Bell, Plus, QrCode, Tag } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Bell, Plus, QrCode, Tag } from "lucide-react";
-import Link from "next/link";
 
 export default function PromocionesPage() {
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex h-full flex-col">
       <header className="border-b">
-        <div className="flex h-16 items-center px-4 gap-4">
+        <div className="flex h-16 items-center gap-4 px-4">
           <SidebarTrigger />
           <h1 className="text-xl font-bold">Promociones</h1>
         </div>
       </header>
-      <div className="flex justify-between items-center px-6 pt-6 pb-2">
+      <div className="flex items-center justify-between px-6 pb-2 pt-6">
         <h2 className="text-lg font-medium">Gestión de Promociones</h2>
         <Button asChild>
           <Link href="/promociones/nueva">
@@ -29,7 +25,7 @@ export default function PromocionesPage() {
           </Link>
         </Button>
       </div>
-      <main className="flex-1 p-6 space-y-6">
+      <main className="flex-1 space-y-6 p-6">
         <Tabs defaultValue="activas" className="space-y-4">
           <TabsList>
             <TabsTrigger value="activas">Activas</TabsTrigger>
@@ -38,21 +34,21 @@ export default function PromocionesPage() {
           </TabsList>
           <TabsContent value="activas" className="space-y-4">
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {promocionesActivas.map((promocion) => (
+              {promocionesActivas.map(promocion => (
                 <PromocionCard key={promocion.id} promocion={promocion} />
               ))}
             </div>
           </TabsContent>
           <TabsContent value="programadas" className="space-y-4">
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {promocionesProgramadas.map((promocion) => (
+              {promocionesProgramadas.map(promocion => (
                 <PromocionCard key={promocion.id} promocion={promocion} />
               ))}
             </div>
           </TabsContent>
           <TabsContent value="finalizadas" className="space-y-4">
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {promocionesFinalizadas.map((promocion) => (
+              {promocionesFinalizadas.map(promocion => (
                 <PromocionCard key={promocion.id} promocion={promocion} />
               ))}
             </div>
@@ -64,14 +60,14 @@ export default function PromocionesPage() {
 }
 
 interface Promocion {
+  descripcion: string;
+  estado: string;
+  fechaFin: string;
+  fechaInicio: string;
   id: number;
   nombre: string;
-  descripcion: string;
   tipo: string;
-  fechaInicio: string;
-  fechaFin: string;
   usos: number;
-  estado: string;
 }
 
 function PromocionCard({ promocion }: { promocion: Promocion }) {
@@ -79,14 +75,10 @@ function PromocionCard({ promocion }: { promocion: Promocion }) {
     <Card className="card-hover">
       <CardHeader className="pb-2">
         <div className="flex items-center justify-between">
-          <div
-            className={`p-2 rounded-md ${getPromocionColor(promocion.tipo)}`}
-          >
+          <div className={`rounded-md p-2 ${getPromocionColor(promocion.tipo)}`}>
             {getPromocionIcon(promocion.tipo)}
           </div>
-          <div
-            className={`px-2 py-1 text-xs rounded-full ${getEstadoColor(promocion.estado)}`}
-          >
+          <div className={`rounded-full px-2 py-1 text-xs ${getEstadoColor(promocion.estado)}`}>
             {promocion.estado}
           </div>
         </div>

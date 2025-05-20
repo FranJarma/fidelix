@@ -1,6 +1,8 @@
-import { FiUsers, FiUserPlus, FiStar } from "react-icons/fi";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { FiStar, FiUserPlus, FiUsers } from "react-icons/fi";
+
 import type { Client } from "../types/clients";
+
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 interface ClientStatisticsProps {
   clients: Client[];
@@ -21,9 +23,7 @@ export function ClientStatistics({ clients }: ClientStatisticsProps) {
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
       <Card className="card-hover">
         <CardHeader className="flex flex-row items-center justify-between pb-2">
-          <CardTitle className="text-sm font-medium">
-            Total de Clientes
-          </CardTitle>
+          <CardTitle className="text-sm font-medium">Total de Clientes</CardTitle>
           <FiUsers className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
@@ -45,13 +45,11 @@ export function ClientStatistics({ clients }: ClientStatisticsProps) {
 
       <Card className="card-hover">
         <CardHeader className="flex flex-row items-center justify-between pb-2">
-          <CardTitle className="text-sm font-medium">
-            Clientes por Nivel
-          </CardTitle>
+          <CardTitle className="text-sm font-medium">Clientes por Nivel</CardTitle>
           <FiStar className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
-          <ul className="text-sm space-y-1">
+          <ul className="space-y-1 text-sm">
             <li>🟡 Oro: {levelCounts.oro}</li>
             <li>⚪ Plata: {levelCounts.plata}</li>
             <li>🟠 Bronce: {levelCounts.bronce}</li>

@@ -1,5 +1,6 @@
-import { SourceEnum } from "@/types/sources";
 import type { Client } from "../types/clients";
+
+import { SourceEnum } from "@/types/sources";
 
 export const mockClients: Client[] = [
   {

@@ -1,20 +1,17 @@
 "use client";
 
 import type React from "react";
+import { useEffect, useState } from "react";
+import Image from "next/image";
 
-import { useState, useEffect } from "react";
+import { CreditCard, Plus, Save, Trash2, Upload } from "lucide-react";
+
+import { useTheme } from "@/components/theme-provider";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { SidebarTrigger } from "@/components/ui/sidebar";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
   Select,
   SelectContent,
@@ -22,39 +19,37 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Switch } from "@/components/ui/switch";
+import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Slider } from "@/components/ui/slider";
+import { Switch } from "@/components/ui/switch";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
-import { Upload, Save, CreditCard, Plus, Trash2 } from "lucide-react";
-import Image from "next/image";
-import { useTheme } from "@/components/theme-provider";
 
 interface LoyaltyBenefit {
-  compras: number;
   beneficio: string;
+  compras: number;
   descripcion: string;
 }
 
 interface BusinessConfig {
-  name: string;
   address: string;
   businessType: string;
-  logo: string;
-  plan: "Standard" | "Gold" | "Premium";
-  phone: string;
   email: string;
-  website: string;
-  primaryColor: string;
+  logo: string;
   loyaltyCard: {
+    benefits: LoyaltyBenefit[];
     color: string;
+    subtitle: string;
     textColor: string;
     title: string;
-    subtitle: string;
     totalSlots: number;
-    benefits: LoyaltyBenefit[];
   };
+  name: string;
+  phone: string;
+  plan: "Standard" | "Gold" | "Premium";
+  primaryColor: string;
+  website: string;
 }
 
 export default function ConfiguracionPage() {
@@ -115,7 +110,7 @@ export default function ConfiguracionPage() {
 
   // Función para actualizar la configuración
   const updateConfig = (key: string, value: any) => {
-    setConfig((prev) => ({
+    setConfig(prev => ({
       ...prev,
       [key]: value,
     }));
@@ -123,7 +118,7 @@ export default function ConfiguracionPage() {
 
   // Función para actualizar la tarjeta de fidelización
   const updateLoyaltyCard = (key: string, value: any) => {
-    setConfig((prev) => ({
+    setConfig(prev => ({
       ...prev,
       loyaltyCard: {
         ...prev.loyaltyCard,
@@ -151,11 +146,7 @@ export default function ConfiguracionPage() {
   };
 
   // Función para actualizar un beneficio
-  const updateBenefit = (
-    index: number,
-    field: keyof LoyaltyBenefit,
-    value: any,
-  ) => {
+  const updateBenefit = (index: number, field: keyof LoyaltyBenefit, value: any) => {
     const newBenefits = [...config.loyaltyCard.benefits];
     newBenefits[index] = {
       ...newBenefits[index],
@@ -175,9 +166,7 @@ export default function ConfiguracionPage() {
   // Función para obtener el beneficio actual según las compras
   const getCurrentBenefit = (compras: number): LoyaltyBenefit | null => {
     // Ordenamos los beneficios por número de compras (descendente)
-    const sortedBenefits = [...config.loyaltyCard.benefits].sort(
-      (a, b) => b.compras - a.compras,
-    );
+    const sortedBenefits = [...config.loyaltyCard.benefits].sort((a, b) => b.compras - a.compras);
 
     // Encontramos el primer beneficio que requiere menos o igual número de compras que las actuales
     for (const benefit of sortedBenefits) {
@@ -192,9 +181,7 @@ export default function ConfiguracionPage() {
   // Función para obtener el próximo beneficio según las compras
   const getNextBenefit = (compras: number): LoyaltyBenefit | null => {
     // Ordenamos los beneficios por número de compras (ascendente)
-    const sortedBenefits = [...config.loyaltyCard.benefits].sort(
-      (a, b) => a.compras - b.compras,
-    );
+    const sortedBenefits = [...config.loyaltyCard.benefits].sort((a, b) => a.compras - b.compras);
 
     // Encontramos el primer beneficio que requiere más compras que las actuales
     for (const benefit of sortedBenefits) {
@@ -207,21 +194,21 @@ export default function ConfiguracionPage() {
   };
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex h-full flex-col">
       <header className="border-b">
-        <div className="flex h-16 items-center px-4 gap-4">
+        <div className="flex h-16 items-center gap-4 px-4">
           <SidebarTrigger />
           <h1 className="text-xl font-bold">Configuración</h1>
         </div>
       </header>
-      <div className="flex justify-between items-center px-6 pt-6 pb-2">
+      <div className="flex items-center justify-between px-6 pb-2 pt-6">
         <h2 className="text-lg font-medium">Ajustes del Negocio</h2>
         <Button onClick={saveChanges}>
           <Save className="mr-2 h-4 w-4" />
           Guardar Cambios
         </Button>
       </div>
-      <main className="flex-1 px-6 pb-6 overflow-auto">
+      <main className="flex-1 overflow-auto px-6 pb-6">
         <Tabs defaultValue="negocio" className="space-y-6">
           <TabsList>
             <TabsTrigger value="negocio">Negocio</TabsTrigger>
@@ -235,9 +222,7 @@ export default function ConfiguracionPage() {
             <Card>
               <CardHeader>
                 <CardTitle>Información del Negocio</CardTitle>
-                <CardDescription>
-                  Configura la información básica de tu negocio.
-                </CardDescription>
+                <CardDescription>Configura la información básica de tu negocio.</CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="space-y-4">
@@ -246,7 +231,7 @@ export default function ConfiguracionPage() {
                     <Input
                       id="business-name"
                       value={config.name}
-                      onChange={(e) => updateConfig("name", e.target.value)}
+                      onChange={e => updateConfig("name", e.target.value)}
                     />
                   </div>
 
@@ -254,9 +239,7 @@ export default function ConfiguracionPage() {
                     <Label htmlFor="business-type">Tipo de Negocio</Label>
                     <Select
                       value={config.businessType}
-                      onValueChange={(value) =>
-                        updateConfig("businessType", value)
-                      }
+                      onValueChange={value => updateConfig("businessType", value)}
                     >
                       <SelectTrigger id="business-type">
                         <SelectValue placeholder="Selecciona un tipo" />
@@ -277,17 +260,17 @@ export default function ConfiguracionPage() {
                     <Textarea
                       id="business-address"
                       value={config.address}
-                      onChange={(e) => updateConfig("address", e.target.value)}
+                      onChange={e => updateConfig("address", e.target.value)}
                     />
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div className="space-y-2">
                       <Label htmlFor="business-phone">Teléfono</Label>
                       <Input
                         id="business-phone"
                         value={config.phone}
-                        onChange={(e) => updateConfig("phone", e.target.value)}
+                        onChange={e => updateConfig("phone", e.target.value)}
                       />
                     </div>
                     <div className="space-y-2">
@@ -296,7 +279,7 @@ export default function ConfiguracionPage() {
                         id="business-email"
                         type="email"
                         value={config.email}
-                        onChange={(e) => updateConfig("email", e.target.value)}
+                        onChange={e => updateConfig("email", e.target.value)}
                       />
                     </div>
                   </div>
@@ -306,7 +289,7 @@ export default function ConfiguracionPage() {
                     <Input
                       id="business-website"
                       value={config.website}
-                      onChange={(e) => updateConfig("website", e.target.value)}
+                      onChange={e => updateConfig("website", e.target.value)}
                     />
                   </div>
                 </div>
@@ -317,13 +300,13 @@ export default function ConfiguracionPage() {
               <CardHeader>
                 <CardTitle>Logo del Negocio</CardTitle>
                 <CardDescription>
-                  Sube el logo de tu negocio. Se mostrará en el sidebar y en la
-                  tarjeta de fidelización.
+                  Sube el logo de tu negocio. Se mostrará en el sidebar y en la tarjeta de
+                  fidelización.
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="flex flex-col md:flex-row gap-6 items-center">
-                  <div className="relative w-32 h-32 border rounded-lg overflow-hidden">
+                <div className="flex flex-col items-center gap-6 md:flex-row">
+                  <div className="relative h-32 w-32 overflow-hidden rounded-lg border">
                     <Image
                       src={config.logo || "/placeholder.svg"}
                       alt="Logo"
@@ -337,10 +320,7 @@ export default function ConfiguracionPage() {
                         <Upload className="mr-2 h-4 w-4" />
                         Subir Logo
                       </Button>
-                      <Button
-                        variant="outline"
-                        className="text-destructive hover:text-destructive"
-                      >
+                      <Button variant="outline" className="text-destructive hover:text-destructive">
                         Eliminar
                       </Button>
                     </div>
@@ -365,37 +345,31 @@ export default function ConfiguracionPage() {
                 <div className="space-y-4">
                   <div className="space-y-2">
                     <Label>Color Primario</Label>
-                    <div className="flex gap-4 items-center">
+                    <div className="flex items-center gap-4">
                       <input
                         type="color"
                         value={config.primaryColor}
-                        onChange={(e) =>
-                          updateConfig("primaryColor", e.target.value)
-                        }
-                        className="w-10 h-10 rounded-md cursor-pointer"
+                        onChange={e => updateConfig("primaryColor", e.target.value)}
+                        className="h-10 w-10 cursor-pointer rounded-md"
                       />
                       <Input
                         value={config.primaryColor}
-                        onChange={(e) =>
-                          updateConfig("primaryColor", e.target.value)
-                        }
+                        onChange={e => updateConfig("primaryColor", e.target.value)}
                         className="flex-1"
                       />
                     </div>
                     <p className="text-sm text-muted-foreground">
-                      Este color se aplicará a botones, enlaces y elementos
-                      destacados en toda la plataforma.
+                      Este color se aplicará a botones, enlaces y elementos destacados en toda la
+                      plataforma.
                     </p>
                   </div>
 
                   <div className="space-y-2">
                     <Label>Previsualización</Label>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                       <div className="space-y-2">
-                        <div className="p-4 border rounded-md">
-                          <h3 className="font-medium mb-2">
-                            Elementos de la interfaz
-                          </h3>
+                        <div className="rounded-md border p-4">
+                          <h3 className="mb-2 font-medium">Elementos de la interfaz</h3>
                           <div className="space-y-2">
                             <Button
                               style={{ backgroundColor: config.primaryColor }}
@@ -421,36 +395,36 @@ export default function ConfiguracionPage() {
                         </div>
                       </div>
                       <div className="space-y-2">
-                        <div className="p-4 border rounded-md">
-                          <h3 className="font-medium mb-2">Efectos hover</h3>
+                        <div className="rounded-md border p-4">
+                          <h3 className="mb-2 font-medium">Efectos hover</h3>
                           <div className="space-y-2">
                             <div
-                              className="p-4 border rounded-md transition-colors hover:shadow-md"
+                              className="rounded-md border p-4 transition-colors hover:shadow-md"
                               style={
                                 {
                                   "--hover-color": `${config.primaryColor}10`,
                                 } as React.CSSProperties
                               }
-                              onMouseEnter={(e) => {
+                              onMouseEnter={e => {
                                 e.currentTarget.style.backgroundColor = `${config.primaryColor}10`;
                               }}
-                              onMouseLeave={(e) => {
+                              onMouseLeave={e => {
                                 e.currentTarget.style.backgroundColor = "";
                               }}
                             >
                               Hover en tarjetas
                             </div>
                             <div
-                              className="p-4 border rounded-md transition-colors"
+                              className="rounded-md border p-4 transition-colors"
                               style={
                                 {
                                   "--hover-color": `${config.primaryColor}10`,
                                 } as React.CSSProperties
                               }
-                              onMouseEnter={(e) => {
+                              onMouseEnter={e => {
                                 e.currentTarget.style.backgroundColor = `${config.primaryColor}10`;
                               }}
-                              onMouseLeave={(e) => {
+                              onMouseLeave={e => {
                                 e.currentTarget.style.backgroundColor = "";
                               }}
                             >
@@ -464,7 +438,7 @@ export default function ConfiguracionPage() {
 
                   <div className="space-y-2">
                     <Label>Paletas predefinidas</Label>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                    <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
                       <ColorPaletteButton
                         color="#1e40af"
                         onClick={() => updateConfig("primaryColor", "#1e40af")}
@@ -529,9 +503,7 @@ export default function ConfiguracionPage() {
                         <Input
                           id="card-title"
                           value={config.loyaltyCard.title}
-                          onChange={(e) =>
-                            updateLoyaltyCard("title", e.target.value)
-                          }
+                          onChange={e => updateLoyaltyCard("title", e.target.value)}
                         />
                       </div>
 
@@ -540,28 +512,22 @@ export default function ConfiguracionPage() {
                         <Input
                           id="card-subtitle"
                           value={config.loyaltyCard.subtitle}
-                          onChange={(e) =>
-                            updateLoyaltyCard("subtitle", e.target.value)
-                          }
+                          onChange={e => updateLoyaltyCard("subtitle", e.target.value)}
                         />
                       </div>
 
                       <div className="space-y-2">
                         <Label>Color de Fondo</Label>
-                        <div className="flex gap-4 items-center">
+                        <div className="flex items-center gap-4">
                           <input
                             type="color"
                             value={config.loyaltyCard.color}
-                            onChange={(e) =>
-                              updateLoyaltyCard("color", e.target.value)
-                            }
-                            className="w-10 h-10 rounded-md cursor-pointer"
+                            onChange={e => updateLoyaltyCard("color", e.target.value)}
+                            className="h-10 w-10 cursor-pointer rounded-md"
                           />
                           <Input
                             value={config.loyaltyCard.color}
-                            onChange={(e) =>
-                              updateLoyaltyCard("color", e.target.value)
-                            }
+                            onChange={e => updateLoyaltyCard("color", e.target.value)}
                             className="flex-1"
                           />
                         </div>
@@ -569,29 +535,23 @@ export default function ConfiguracionPage() {
 
                       <div className="space-y-2">
                         <Label>Color del Texto</Label>
-                        <div className="flex gap-4 items-center">
+                        <div className="flex items-center gap-4">
                           <input
                             type="color"
                             value={config.loyaltyCard.textColor}
-                            onChange={(e) =>
-                              updateLoyaltyCard("textColor", e.target.value)
-                            }
-                            className="w-10 h-10 rounded-md cursor-pointer"
+                            onChange={e => updateLoyaltyCard("textColor", e.target.value)}
+                            className="h-10 w-10 cursor-pointer rounded-md"
                           />
                           <Input
                             value={config.loyaltyCard.textColor}
-                            onChange={(e) =>
-                              updateLoyaltyCard("textColor", e.target.value)
-                            }
+                            onChange={e => updateLoyaltyCard("textColor", e.target.value)}
                             className="flex-1"
                           />
                         </div>
                       </div>
 
                       <div className="space-y-2">
-                        <Label htmlFor="total-slots">
-                          Número Total de Slots
-                        </Label>
+                        <Label htmlFor="total-slots">Número Total de Slots</Label>
                         <div className="flex items-center gap-4">
                           <Input
                             id="total-slots"
@@ -599,17 +559,13 @@ export default function ConfiguracionPage() {
                             min="1"
                             max="20"
                             value={config.loyaltyCard.totalSlots}
-                            onChange={(e) =>
-                              updateLoyaltyCard(
-                                "totalSlots",
-                                Number.parseInt(e.target.value) || 10,
-                              )
+                            onChange={e =>
+                              updateLoyaltyCard("totalSlots", Number.parseInt(e.target.value) || 10)
                             }
                             className="w-20"
                           />
                           <span className="text-sm text-muted-foreground">
-                            Número de compras necesarias para completar la
-                            tarjeta
+                            Número de compras necesarias para completar la tarjeta
                           </span>
                         </div>
                       </div>
@@ -622,31 +578,24 @@ export default function ConfiguracionPage() {
                     <div>
                       <CardTitle>Beneficios por Compras</CardTitle>
                       <CardDescription>
-                        Define los beneficios según el número de compras
-                        acumuladas.
+                        Define los beneficios según el número de compras acumuladas.
                       </CardDescription>
                     </div>
                     <Button size="sm" variant="outline" onClick={addBenefit}>
-                      <Plus className="h-4 w-4 mr-1" /> Añadir
+                      <Plus className="mr-1 h-4 w-4" /> Añadir
                     </Button>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
                       {config.loyaltyCard.benefits.length === 0 ? (
-                        <div className="text-center py-4 text-muted-foreground">
-                          No hay beneficios configurados. Añade uno para
-                          comenzar.
+                        <div className="py-4 text-center text-muted-foreground">
+                          No hay beneficios configurados. Añade uno para comenzar.
                         </div>
                       ) : (
                         config.loyaltyCard.benefits.map((benefit, index) => (
-                          <div
-                            key={index}
-                            className="border rounded-md p-4 space-y-3"
-                          >
-                            <div className="flex justify-between items-center">
-                              <h4 className="font-medium">
-                                Beneficio {index + 1}
-                              </h4>
+                          <div key={index} className="space-y-3 rounded-md border p-4">
+                            <div className="flex items-center justify-between">
+                              <h4 className="font-medium">Beneficio {index + 1}</h4>
                               <Button
                                 size="sm"
                                 variant="ghost"
@@ -659,16 +608,14 @@ export default function ConfiguracionPage() {
                             </div>
                             <div className="space-y-3">
                               <div className="space-y-1">
-                                <Label htmlFor={`compras-${index}`}>
-                                  Compras necesarias
-                                </Label>
+                                <Label htmlFor={`compras-${index}`}>Compras necesarias</Label>
                                 <Input
                                   id={`compras-${index}`}
                                   type="number"
                                   min="1"
                                   max={config.loyaltyCard.totalSlots}
                                   value={benefit.compras}
-                                  onChange={(e) =>
+                                  onChange={e =>
                                     updateBenefit(
                                       index,
                                       "compras",
@@ -678,34 +625,20 @@ export default function ConfiguracionPage() {
                                 />
                               </div>
                               <div className="space-y-1">
-                                <Label htmlFor={`beneficio-${index}`}>
-                                  Beneficio
-                                </Label>
+                                <Label htmlFor={`beneficio-${index}`}>Beneficio</Label>
                                 <Input
                                   id={`beneficio-${index}`}
                                   value={benefit.beneficio}
-                                  onChange={(e) =>
-                                    updateBenefit(
-                                      index,
-                                      "beneficio",
-                                      e.target.value,
-                                    )
-                                  }
+                                  onChange={e => updateBenefit(index, "beneficio", e.target.value)}
                                 />
                               </div>
                               <div className="space-y-1">
-                                <Label htmlFor={`descripcion-${index}`}>
-                                  Descripción
-                                </Label>
+                                <Label htmlFor={`descripcion-${index}`}>Descripción</Label>
                                 <Input
                                   id={`descripcion-${index}`}
                                   value={benefit.descripcion}
-                                  onChange={(e) =>
-                                    updateBenefit(
-                                      index,
-                                      "descripcion",
-                                      e.target.value,
-                                    )
+                                  onChange={e =>
+                                    updateBenefit(index, "descripcion", e.target.value)
                                   }
                                 />
                               </div>
@@ -722,28 +655,22 @@ export default function ConfiguracionPage() {
                 <Card>
                   <CardHeader>
                     <CardTitle>Vista Previa</CardTitle>
-                    <CardDescription>
-                      Así se verá tu tarjeta de fidelización.
-                    </CardDescription>
+                    <CardDescription>Así se verá tu tarjeta de fidelización.</CardDescription>
                   </CardHeader>
-                  <CardContent className="flex flex-col items-center justify-center p-6 space-y-6">
+                  <CardContent className="flex flex-col items-center justify-center space-y-6 p-6">
                     <div
-                      className="w-full max-w-md aspect-[1.6/1] rounded-xl shadow-lg p-6 flex flex-col justify-between"
+                      className="flex aspect-[1.6/1] w-full max-w-md flex-col justify-between rounded-xl p-6 shadow-lg"
                       style={{
                         backgroundColor: config.loyaltyCard.color,
                         color: config.loyaltyCard.textColor,
                       }}
                     >
-                      <div className="flex justify-between items-start">
+                      <div className="flex items-start justify-between">
                         <div>
-                          <h3 className="text-xl font-bold">
-                            {config.loyaltyCard.title}
-                          </h3>
-                          <p className="text-sm opacity-90">
-                            {config.loyaltyCard.subtitle}
-                          </p>
+                          <h3 className="text-xl font-bold">{config.loyaltyCard.title}</h3>
+                          <p className="text-sm opacity-90">{config.loyaltyCard.subtitle}</p>
                         </div>
-                        <div className="relative w-12 h-12 rounded-full overflow-hidden bg-white/20">
+                        <div className="relative h-12 w-12 overflow-hidden rounded-full bg-white/20">
                           <Image
                             src={config.logo || "/placeholder.svg"}
                             alt="Logo"
@@ -754,21 +681,21 @@ export default function ConfiguracionPage() {
                       </div>
 
                       <div className="mt-auto">
-                        <div className="text-sm opacity-80 mb-1">Cliente</div>
-                        <div className="font-bold text-lg">Juan Pérez</div>
+                        <div className="mb-1 text-sm opacity-80">Cliente</div>
+                        <div className="text-lg font-bold">Juan Pérez</div>
 
                         {/* Slots de compras */}
-                        <div className="mt-3 mb-1 flex justify-between items-center">
+                        <div className="mb-1 mt-3 flex items-center justify-between">
                           <span className="text-sm opacity-80">
                             Compras acumuladas: {previewCompras}
                           </span>
                           {getCurrentBenefit(previewCompras) && (
-                            <span className="text-sm font-bold px-2 py-1 bg-white/20 rounded-full">
+                            <span className="rounded-full bg-white/20 px-2 py-1 text-sm font-bold">
                               {getCurrentBenefit(previewCompras)?.beneficio}
                             </span>
                           )}
                         </div>
-                        <div className="grid grid-cols-10 gap-1 mt-1">
+                        <div className="mt-1 grid grid-cols-10 gap-1">
                           {Array.from({
                             length: config.loyaltyCard.totalSlots,
                           }).map((_, i) => (
@@ -781,18 +708,15 @@ export default function ConfiguracionPage() {
 
                         {/* Próximo beneficio */}
                         {getNextBenefit(previewCompras) && (
-                          <div className="text-xs opacity-80 mt-2">
-                            Próximo beneficio:{" "}
-                            {getNextBenefit(previewCompras)?.beneficio} (
-                            {getNextBenefit(previewCompras)?.compras -
-                              previewCompras}{" "}
-                            compras más)
+                          <div className="mt-2 text-xs opacity-80">
+                            Próximo beneficio: {getNextBenefit(previewCompras)?.beneficio} (
+                            {getNextBenefit(previewCompras)?.compras - previewCompras} compras más)
                           </div>
                         )}
                       </div>
                     </div>
 
-                    <div className="space-y-2 w-full">
+                    <div className="w-full space-y-2">
                       <Label>Simular compras acumuladas</Label>
                       <div className="flex items-center gap-4">
                         <Slider
@@ -800,11 +724,9 @@ export default function ConfiguracionPage() {
                           min={0}
                           max={config.loyaltyCard.totalSlots}
                           step={1}
-                          onValueChange={(value) => setPreviewCompras(value[0])}
+                          onValueChange={value => setPreviewCompras(value[0])}
                         />
-                        <span className="w-8 text-center">
-                          {previewCompras}
-                        </span>
+                        <span className="w-8 text-center">{previewCompras}</span>
                       </div>
                     </div>
                   </CardContent>
@@ -813,14 +735,12 @@ export default function ConfiguracionPage() {
                 <Card>
                   <CardHeader>
                     <CardTitle>Ejemplo de Beneficios</CardTitle>
-                    <CardDescription>
-                      Resumen de los beneficios configurados.
-                    </CardDescription>
+                    <CardDescription>Resumen de los beneficios configurados.</CardDescription>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-3">
                       {config.loyaltyCard.benefits.length === 0 ? (
-                        <div className="text-center py-4 text-muted-foreground">
+                        <div className="py-4 text-center text-muted-foreground">
                           No hay beneficios configurados.
                         </div>
                       ) : (
@@ -829,15 +749,13 @@ export default function ConfiguracionPage() {
                           .map((benefit, index) => (
                             <div
                               key={index}
-                              className="flex items-start gap-3 p-3 border rounded-md"
+                              className="flex items-start gap-3 rounded-md border p-3"
                             >
-                              <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-primary-foreground flex-shrink-0">
+                              <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground">
                                 {benefit.compras}
                               </div>
                               <div>
-                                <h4 className="font-medium">
-                                  {benefit.beneficio}
-                                </h4>
+                                <h4 className="font-medium">{benefit.beneficio}</h4>
                                 <p className="text-sm text-muted-foreground">
                                   {benefit.descripcion}
                                 </p>
@@ -856,30 +774,22 @@ export default function ConfiguracionPage() {
             <Card>
               <CardHeader>
                 <CardTitle>Plan Actual</CardTitle>
-                <CardDescription>
-                  Gestiona tu plan de suscripción.
-                </CardDescription>
+                <CardDescription>Gestiona tu plan de suscripción.</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-6">
-                  <div className="bg-muted p-4 rounded-lg">
+                  <div className="rounded-lg bg-muted p-4">
                     <div className="flex items-center gap-4">
-                      <div className="bg-primary text-primary-foreground p-3 rounded-full">
+                      <div className="rounded-full bg-primary p-3 text-primary-foreground">
                         <CreditCard className="h-6 w-6" />
                       </div>
                       <div>
-                        <p className="text-sm text-muted-foreground">
-                          Plan Actual
-                        </p>
-                        <p className="font-medium text-lg">{config.plan}</p>
+                        <p className="text-sm text-muted-foreground">Plan Actual</p>
+                        <p className="text-lg font-medium">{config.plan}</p>
                       </div>
                       <div className="ml-auto">
                         <Badge
-                          className={
-                            config.plan === "Premium"
-                              ? "bg-purple-600"
-                              : "bg-yellow-500"
-                          }
+                          className={config.plan === "Premium" ? "bg-purple-600" : "bg-yellow-500"}
                         >
                           {config.plan}
                         </Badge>
@@ -891,47 +801,38 @@ export default function ConfiguracionPage() {
                     <Label>Selecciona un Plan</Label>
                     <RadioGroup
                       defaultValue={config.plan}
-                      onValueChange={(value) => updateConfig("plan", value)}
-                      className="grid grid-cols-1 md:grid-cols-3 gap-4"
+                      onValueChange={value => updateConfig("plan", value)}
+                      className="grid grid-cols-1 gap-4 md:grid-cols-3"
                     >
-                      <div className="flex flex-col items-start space-y-2 border rounded-md p-4">
+                      <div className="flex flex-col items-start space-y-2 rounded-md border p-4">
                         <div className="flex items-center space-x-2">
                           <RadioGroupItem value="Standard" id="plan-standard" />
-                          <Label
-                            htmlFor="plan-standard"
-                            className="font-medium"
-                          >
+                          <Label htmlFor="plan-standard" className="font-medium">
                             Standard
                           </Label>
                         </div>
-                        <p className="text-sm text-muted-foreground pl-6">
-                          Hasta 500 clientes
-                        </p>
-                        <p className="text-xl font-bold mt-2">€29/mes</p>
+                        <p className="pl-6 text-sm text-muted-foreground">Hasta 500 clientes</p>
+                        <p className="mt-2 text-xl font-bold">€29/mes</p>
                       </div>
-                      <div className="flex flex-col items-start space-y-2 border rounded-md p-4 border-yellow-500">
+                      <div className="flex flex-col items-start space-y-2 rounded-md border border-yellow-500 p-4">
                         <div className="flex items-center space-x-2">
                           <RadioGroupItem value="Gold" id="plan-gold" />
                           <Label htmlFor="plan-gold" className="font-medium">
                             Gold
                           </Label>
                         </div>
-                        <p className="text-sm text-muted-foreground pl-6">
-                          Hasta 2000 clientes
-                        </p>
-                        <p className="text-xl font-bold mt-2">€59/mes</p>
+                        <p className="pl-6 text-sm text-muted-foreground">Hasta 2000 clientes</p>
+                        <p className="mt-2 text-xl font-bold">€59/mes</p>
                       </div>
-                      <div className="flex flex-col items-start space-y-2 border rounded-md p-4 border-purple-500">
+                      <div className="flex flex-col items-start space-y-2 rounded-md border border-purple-500 p-4">
                         <div className="flex items-center space-x-2">
                           <RadioGroupItem value="Premium" id="plan-premium" />
                           <Label htmlFor="plan-premium" className="font-medium">
                             Premium
                           </Label>
                         </div>
-                        <p className="text-sm text-muted-foreground pl-6">
-                          Clientes ilimitados
-                        </p>
-                        <p className="text-xl font-bold mt-2">€99/mes</p>
+                        <p className="pl-6 text-sm text-muted-foreground">Clientes ilimitados</p>
+                        <p className="mt-2 text-xl font-bold">€99/mes</p>
                       </div>
                     </RadioGroup>
                   </div>
@@ -947,8 +848,7 @@ export default function ConfiguracionPage() {
               <CardHeader>
                 <CardTitle>Configuración de Notificaciones</CardTitle>
                 <CardDescription>
-                  Configura cómo y cuándo se envían las notificaciones a tus
-                  clientes.
+                  Configura cómo y cuándo se envían las notificaciones a tus clientes.
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -1028,17 +928,9 @@ export default function ConfiguracionPage() {
 }
 
 // Componente Badge
-function Badge({
-  className,
-  children,
-}: {
-  className?: string;
-  children: React.ReactNode;
-}) {
+function Badge({ children, className }: { children: React.ReactNode; className?: string }) {
   return (
-    <span
-      className={`px-2 py-1 text-xs font-medium rounded-full text-white ${className}`}
-    >
+    <span className={`rounded-full px-2 py-1 text-xs font-medium text-white ${className}`}>
       {children}
     </span>
   );
@@ -1046,22 +938,22 @@ function Badge({
 
 // Componente Separator
 function Separator() {
-  return <div className="h-px bg-border my-4" />;
+  return <div className="my-4 h-px bg-border" />;
 }
 
 // Componente para los botones de paleta de colores
 function ColorPaletteButton({
   color,
-  onClick,
   isSelected,
+  onClick,
 }: {
   color: string;
-  onClick: () => void;
   isSelected: boolean;
+  onClick: () => void;
 }) {
   return (
     <button
-      className={`w-full aspect-square rounded-md transition-all ${isSelected ? "ring-2 ring-offset-2" : "hover:scale-105"}`}
+      className={`aspect-square w-full rounded-md transition-all ${isSelected ? "ring-2 ring-offset-2" : "hover:scale-105"}`}
       style={{ backgroundColor: color, ringColor: color }}
       onClick={onClick}
       aria-label={`Seleccionar color ${color}`}

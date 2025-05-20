@@ -1,10 +1,12 @@
 import type React from "react";
 import type { Metadata } from "next";
 import { Noto_Sans } from "next/font/google";
+
 import "./globals.css";
+
+import { Sidebar } from "@/components/sidebar";
 import { ThemeProvider } from "@/components/theme-provider";
 import { SidebarProvider } from "@/components/ui/sidebar";
-import { Sidebar } from "@/components/sidebar";
 import { Toaster } from "@/components/ui/toaster";
 
 const notoSans = Noto_Sans({
@@ -16,8 +18,7 @@ const notoSans = Noto_Sans({
 
 export const metadata: Metadata = {
   title: "Plataforma de Fidelización",
-  description:
-    "Sistema de fidelización de clientes con promociones y notificaciones",
+  description: "Sistema de fidelización de clientes con promociones y notificaciones",
   generator: "v0.dev",
 };
 
@@ -28,7 +29,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" suppressHydrationWarning>
-      <body className={`${notoSans.variable} font-sans h-screen`}>
+      <body className={`${notoSans.variable} h-screen font-sans`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="light"
@@ -38,7 +39,7 @@ export default function RootLayout({
           <SidebarProvider>
             <div className="flex h-screen w-full overflow-hidden">
               <Sidebar />
-              <main className="flex-1 overflow-auto w-full">{children}</main>
+              <main className="w-full flex-1 overflow-auto">{children}</main>
             </div>
           </SidebarProvider>
           <Toaster />

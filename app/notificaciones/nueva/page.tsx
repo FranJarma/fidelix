@@ -1,16 +1,14 @@
 "use client";
 
 import type React from "react";
-
 import { useState } from "react";
+import Link from "next/link";
+
+import { ArrowLeft, Bell, Calendar, Send, Tag, Users } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -22,12 +20,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import { Textarea } from "@/components/ui/textarea";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Switch } from "@/components/ui/switch";
+import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
-import { ArrowLeft, Calendar, Bell, Send, Users, Tag } from "lucide-react";
-import Link from "next/link";
 
 export default function NuevaNotificacionPage() {
   const [notificacion, setNotificacion] = useState({
@@ -44,7 +39,7 @@ export default function NuevaNotificacionPage() {
   });
 
   const handleChange = (field: string, value: any) => {
-    setNotificacion((prev) => ({
+    setNotificacion(prev => ({
       ...prev,
       [field]: value,
     }));
@@ -65,9 +60,9 @@ export default function NuevaNotificacionPage() {
   };
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex h-full flex-col">
       <header className="border-b">
-        <div className="flex h-16 items-center px-4 gap-4">
+        <div className="flex h-16 items-center gap-4 px-4">
           <SidebarTrigger />
           <Link
             href="/notificaciones"
@@ -80,14 +75,13 @@ export default function NuevaNotificacionPage() {
         </div>
       </header>
       <main className="flex-1 p-6">
-        <div className="max-w-3xl mx-auto">
+        <div className="mx-auto max-w-3xl">
           <form onSubmit={handleSubmit}>
             <Card>
               <CardHeader>
                 <CardTitle>Crear Nueva Notificación</CardTitle>
                 <CardDescription>
-                  Configura los detalles de la notificación que quieres enviar a
-                  tus clientes.
+                  Configura los detalles de la notificación que quieres enviar a tus clientes.
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
@@ -98,7 +92,7 @@ export default function NuevaNotificacionPage() {
                       id="titulo"
                       placeholder="Ej: Nueva promoción disponible"
                       value={notificacion.titulo}
-                      onChange={(e) => handleChange("titulo", e.target.value)}
+                      onChange={e => handleChange("titulo", e.target.value)}
                       required
                     />
                   </div>
@@ -109,7 +103,7 @@ export default function NuevaNotificacionPage() {
                       id="mensaje"
                       placeholder="Escribe el contenido de la notificación"
                       value={notificacion.mensaje}
-                      onChange={(e) => handleChange("mensaje", e.target.value)}
+                      onChange={e => handleChange("mensaje", e.target.value)}
                       required
                       className="min-h-[120px]"
                     />
@@ -119,37 +113,34 @@ export default function NuevaNotificacionPage() {
                     <Label>Tipo de notificación</Label>
                     <RadioGroup
                       value={notificacion.tipo}
-                      onValueChange={(value) => handleChange("tipo", value)}
-                      className="grid grid-cols-1 md:grid-cols-3 gap-4"
+                      onValueChange={value => handleChange("tipo", value)}
+                      className="grid grid-cols-1 gap-4 md:grid-cols-3"
                     >
-                      <div className="flex items-center space-x-2 border rounded-md p-4">
+                      <div className="flex items-center space-x-2 rounded-md border p-4">
                         <RadioGroupItem value="promocion" id="promocion" />
                         <Label
                           htmlFor="promocion"
-                          className="flex items-center gap-2 cursor-pointer"
+                          className="flex cursor-pointer items-center gap-2"
                         >
                           <Tag className="h-4 w-4" />
                           <span>Promoción</span>
                         </Label>
                       </div>
-                      <div className="flex items-center space-x-2 border rounded-md p-4">
-                        <RadioGroupItem
-                          value="recordatorio"
-                          id="recordatorio"
-                        />
+                      <div className="flex items-center space-x-2 rounded-md border p-4">
+                        <RadioGroupItem value="recordatorio" id="recordatorio" />
                         <Label
                           htmlFor="recordatorio"
-                          className="flex items-center gap-2 cursor-pointer"
+                          className="flex cursor-pointer items-center gap-2"
                         >
                           <Bell className="h-4 w-4" />
                           <span>Recordatorio</span>
                         </Label>
                       </div>
-                      <div className="flex items-center space-x-2 border rounded-md p-4">
+                      <div className="flex items-center space-x-2 rounded-md border p-4">
                         <RadioGroupItem value="informativa" id="informativa" />
                         <Label
                           htmlFor="informativa"
-                          className="flex items-center gap-2 cursor-pointer"
+                          className="flex cursor-pointer items-center gap-2"
                         >
                           <Users className="h-4 w-4" />
                           <span>Informativa</span>
@@ -162,15 +153,13 @@ export default function NuevaNotificacionPage() {
                     <Switch
                       id="programada"
                       checked={notificacion.programada}
-                      onCheckedChange={(checked) =>
-                        handleChange("programada", checked)
-                      }
+                      onCheckedChange={checked => handleChange("programada", checked)}
                     />
                     <Label htmlFor="programada">Programar envío</Label>
                   </div>
 
                   {notificacion.programada && (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pl-6 border-l-2 border-muted">
+                    <div className="grid grid-cols-1 gap-4 border-l-2 border-muted pl-6 md:grid-cols-2">
                       <div className="space-y-2">
                         <Label htmlFor="fechaEnvio">Fecha de envío</Label>
                         <div className="relative">
@@ -178,9 +167,7 @@ export default function NuevaNotificacionPage() {
                             id="fechaEnvio"
                             type="date"
                             value={notificacion.fechaEnvio}
-                            onChange={(e) =>
-                              handleChange("fechaEnvio", e.target.value)
-                            }
+                            onChange={e => handleChange("fechaEnvio", e.target.value)}
                             required={notificacion.programada}
                           />
                           <Calendar className="absolute right-3 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -192,9 +179,7 @@ export default function NuevaNotificacionPage() {
                           id="horaEnvio"
                           type="time"
                           value={notificacion.horaEnvio}
-                          onChange={(e) =>
-                            handleChange("horaEnvio", e.target.value)
-                          }
+                          onChange={e => handleChange("horaEnvio", e.target.value)}
                           required={notificacion.programada}
                         />
                       </div>
@@ -205,22 +190,16 @@ export default function NuevaNotificacionPage() {
                     <Label htmlFor="segmento">Segmento de clientes</Label>
                     <Select
                       value={notificacion.segmento}
-                      onValueChange={(value) => handleChange("segmento", value)}
+                      onValueChange={value => handleChange("segmento", value)}
                     >
                       <SelectTrigger id="segmento">
                         <SelectValue placeholder="Selecciona un segmento" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="todos">
-                          Todos los clientes
-                        </SelectItem>
+                        <SelectItem value="todos">Todos los clientes</SelectItem>
                         <SelectItem value="nuevos">Clientes nuevos</SelectItem>
-                        <SelectItem value="frecuentes">
-                          Clientes frecuentes
-                        </SelectItem>
-                        <SelectItem value="inactivos">
-                          Clientes inactivos
-                        </SelectItem>
+                        <SelectItem value="frecuentes">Clientes frecuentes</SelectItem>
+                        <SelectItem value="inactivos">Clientes inactivos</SelectItem>
                         <SelectItem value="bronce">Nivel Bronce</SelectItem>
                         <SelectItem value="plata">Nivel Plata</SelectItem>
                         <SelectItem value="oro">Nivel Oro</SelectItem>
@@ -231,14 +210,10 @@ export default function NuevaNotificacionPage() {
 
                   {notificacion.tipo === "promocion" && (
                     <div className="space-y-2">
-                      <Label htmlFor="promocionRelacionada">
-                        Promoción relacionada
-                      </Label>
+                      <Label htmlFor="promocionRelacionada">Promoción relacionada</Label>
                       <Select
                         value={notificacion.promocionRelacionada}
-                        onValueChange={(value) =>
-                          handleChange("promocionRelacionada", value)
-                        }
+                        onValueChange={value => handleChange("promocionRelacionada", value)}
                       >
                         <SelectTrigger id="promocionRelacionada">
                           <SelectValue placeholder="Selecciona una promoción" />
@@ -247,12 +222,8 @@ export default function NuevaNotificacionPage() {
                           <SelectItem value="1">2x1 en Cafés</SelectItem>
                           <SelectItem value="2">30% de descuento</SelectItem>
                           <SelectItem value="3">Postre gratis</SelectItem>
-                          <SelectItem value="4">
-                            Acumula puntos dobles
-                          </SelectItem>
-                          <SelectItem value="5">
-                            50% en segunda compra
-                          </SelectItem>
+                          <SelectItem value="4">Acumula puntos dobles</SelectItem>
+                          <SelectItem value="5">50% en segunda compra</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
@@ -260,41 +231,31 @@ export default function NuevaNotificacionPage() {
 
                   <div className="space-y-2">
                     <Label>Canales de envío</Label>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="flex items-center space-x-2 border rounded-md p-4">
+                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                      <div className="flex items-center space-x-2 rounded-md border p-4">
                         <Checkbox
                           id="enviarPush"
                           checked={notificacion.enviarPush}
-                          onCheckedChange={(checked) =>
-                            handleChange("enviarPush", checked)
-                          }
+                          onCheckedChange={checked => handleChange("enviarPush", checked)}
                         />
-                        <Label
-                          htmlFor="enviarPush"
-                          className="flex-1 cursor-pointer"
-                        >
+                        <Label htmlFor="enviarPush" className="flex-1 cursor-pointer">
                           Notificación Push
                         </Label>
                       </div>
-                      <div className="flex items-center space-x-2 border rounded-md p-4">
+                      <div className="flex items-center space-x-2 rounded-md border p-4">
                         <Checkbox
                           id="enviarEmail"
                           checked={notificacion.enviarEmail}
-                          onCheckedChange={(checked) =>
-                            handleChange("enviarEmail", checked)
-                          }
+                          onCheckedChange={checked => handleChange("enviarEmail", checked)}
                         />
-                        <Label
-                          htmlFor="enviarEmail"
-                          className="flex-1 cursor-pointer"
-                        >
+                        <Label htmlFor="enviarEmail" className="flex-1 cursor-pointer">
                           Email
                         </Label>
                       </div>
                     </div>
                   </div>
 
-                  <div className="pt-4 flex justify-between">
+                  <div className="flex justify-between pt-4">
                     <Button variant="outline" type="button" asChild>
                       <Link href="/notificaciones">Cancelar</Link>
                     </Button>
@@ -304,9 +265,7 @@ export default function NuevaNotificacionPage() {
                       </Button>
                       <Button type="submit">
                         <Send className="mr-2 h-4 w-4" />
-                        {notificacion.programada
-                          ? "Programar notificación"
-                          : "Enviar notificación"}
+                        {notificacion.programada ? "Programar notificación" : "Enviar notificación"}
                       </Button>
                     </div>
                   </div>

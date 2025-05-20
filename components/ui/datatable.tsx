@@ -1,52 +1,52 @@
 "use client";
 
 import * as React from "react";
+import { FiBell, FiTrash } from "react-icons/fi";
+
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import {
   ColumnDef,
+  flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getSortedRowModel,
-  useReactTable,
-  flexRender,
   RowSelectionState,
+  useReactTable,
 } from "@tanstack/react-table";
 
-import {
-  Table,
-  TableHeader,
-  TableBody,
-  TableHead,
-  TableRow,
-  TableCell,
-} from "@/components/ui/table";
-import { Input } from "@/components/ui/input";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Button } from "@/components/ui/button";
-import { FiTrash, FiBell } from "react-icons/fi";
-
 interface BulkAction<T> {
+  icon?: React.ReactNode;
   id: string;
   label: string;
-  icon?: React.ReactNode;
   onClick: (rows: T[]) => void;
 }
 
 interface DataTableProps<TData> {
-  data: TData[];
+  bulkActions?: BulkAction<TData>[];
   columns: ColumnDef<TData>[];
+  data: TData[];
+  onRowClick?: (row: TData) => void;
   rowKey: keyof TData;
   searchablePlaceholder?: string;
-  bulkActions?: BulkAction<TData>[];
-  onRowClick?: (row: TData) => void;
 }
 
 export function DataTable<TData>({
-  data,
+  bulkActions = [],
   columns,
+  data,
+  onRowClick,
   rowKey,
   searchablePlaceholder = "Buscar...",
-  bulkActions = [],
-  onRowClick,
 }: DataTableProps<TData>) {
   const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({});
   const [globalFilter, setGlobalFilter] = React.useState("");
@@ -65,7 +65,7 @@ export function DataTable<TData>({
     enableRowSelection: true,
   });
 
-  const selectedRows = table.getSelectedRowModel().rows.map((r) => r.original);
+  const selectedRows = table.getSelectedRowModel().rows.map(r => r.original);
 
   return (
     <div className="space-y-4">
@@ -73,12 +73,12 @@ export function DataTable<TData>({
         <Input
           placeholder={searchablePlaceholder}
           value={globalFilter}
-          onChange={(e) => setGlobalFilter(e.target.value)}
+          onChange={e => setGlobalFilter(e.target.value)}
           className="max-w-sm"
         />
         {selectedRows.length > 0 && (
           <div className="flex items-center gap-2">
-            {bulkActions.map((action) => (
+            {bulkActions.map(action => (
               <Button
                 key={action.id}
                 size="sm"
@@ -96,22 +96,15 @@ export function DataTable<TData>({
       <div className="relative w-full overflow-auto">
         <table className="w-full caption-bottom text-sm">
           <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
+            {table.getHeaderGroups().map(headerGroup => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
+                {headerGroup.headers.map(header => (
                   <TableHead
                     key={header.id}
                     onClick={header.column.getToggleSortingHandler()}
-                    className={
-                      header.column.getCanSort()
-                        ? "cursor-pointer select-none"
-                        : ""
-                    }
+                    className={header.column.getCanSort() ? "cursor-pointer select-none" : ""}
                   >
-                    {flexRender(
-                      header.column.columnDef.header,
-                      header.getContext(),
-                    )}
+                    {flexRender(header.column.columnDef.header, header.getContext())}
                     {header.column.getIsSorted() === "asc" && " 🔼"}
                     {header.column.getIsSorted() === "desc" && " 🔽"}
                   </TableHead>
@@ -121,11 +114,11 @@ export function DataTable<TData>({
           </TableHeader>
 
           <TableBody>
-            {table.getRowModel().rows.map((row) => (
+            {table.getRowModel().rows.map(row => (
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() ? "selected" : undefined}
-                onClick={(e) => {
+                onClick={e => {
                   const target = e.target as HTMLElement;
                   if (
                     target.closest("button") ||
@@ -136,9 +129,9 @@ export function DataTable<TData>({
                   }
                   onRowClick?.(row.original);
                 }}
-                className="cursor-pointer hover:bg-muted/50 transition-colors"
+                className="cursor-pointer transition-colors hover:bg-muted/50"
               >
-                {row.getVisibleCells().map((cell) => (
+                {row.getVisibleCells().map(cell => (
                   <TableCell key={cell.id}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>

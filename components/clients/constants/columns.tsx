@@ -1,6 +1,7 @@
-import { ColumnDef } from "@tanstack/react-table";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Client } from "../types/clients";
+
+import { Checkbox } from "@/components/ui/checkbox";
+import { ColumnDef } from "@tanstack/react-table";
 
 export const clientColumns: ColumnDef<Client>[] = [
   {
@@ -8,14 +9,14 @@ export const clientColumns: ColumnDef<Client>[] = [
     header: ({ table }) => (
       <Checkbox
         checked={table.getIsAllPageRowsSelected()}
-        onCheckedChange={(val) => table.toggleAllPageRowsSelected(!!val)}
+        onCheckedChange={val => table.toggleAllPageRowsSelected(!!val)}
         aria-label="Seleccionar todo"
       />
     ),
     cell: ({ row }) => (
       <Checkbox
         checked={row.getIsSelected()}
-        onCheckedChange={(val) => row.toggleSelected(!!val)}
+        onCheckedChange={val => row.toggleSelected(!!val)}
         aria-label="Seleccionar fila"
       />
     ),
@@ -26,9 +27,7 @@ export const clientColumns: ColumnDef<Client>[] = [
     accessorKey: "fullName",
     header: "Nombre Completo",
     cell: ({ row }) => (
-      <span className="font-medium">
-        {`${row.original.name} ${row.original.lastName}`}
-      </span>
+      <span className="font-medium">{`${row.original.name} ${row.original.lastName}`}</span>
     ),
     enableSorting: true,
   },

@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+
 import { OTPInput, OTPInputContext } from "input-otp";
 import { Dot } from "lucide-react";
 
@@ -33,7 +34,7 @@ InputOTPGroup.displayName = "InputOTPGroup";
 const InputOTPSlot = React.forwardRef<
   React.ElementRef<"div">,
   React.ComponentPropsWithoutRef<"div"> & { index: number }
->(({ index, className, ...props }, ref) => {
+>(({ className, index, ...props }, ref) => {
   const inputOTPContext = React.useContext(OTPInputContext);
   const { char, hasFakeCaret, isActive } = inputOTPContext.slots[index];
 
@@ -50,7 +51,7 @@ const InputOTPSlot = React.forwardRef<
       {char}
       {hasFakeCaret && (
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-          <div className="h-4 w-px animate-caret-blink bg-foreground duration-1000" />
+          <div className="animate-caret-blink h-4 w-px bg-foreground duration-1000" />
         </div>
       )}
     </div>
@@ -68,4 +69,4 @@ const InputOTPSeparator = React.forwardRef<
 ));
 InputOTPSeparator.displayName = "InputOTPSeparator";
 
-export { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator };
+export { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot };

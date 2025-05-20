@@ -1,44 +1,40 @@
 "use client";
 
 import * as React from "react";
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
 import { FiCheck } from "react-icons/fi";
 
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+
 interface Field {
-  name: string;
   label: string;
+  name: string;
   type?: string;
 }
 
 interface EntityFormDialogProps<T> {
-  confirmMessage?: string;
-  title: string;
-  mode?: "create" | "edit";
-  initialValues?: Partial<T>;
-  fields: Field[];
-  open?: boolean;
-  onSubmit: (values: T) => void;
-  onClose?: () => void;
   children?: React.ReactNode;
+  confirmMessage?: string;
+  fields: Field[];
+  initialValues?: Partial<T>;
+  mode?: "create" | "edit";
+  onClose?: () => void;
+  onSubmit: (values: T) => void;
+  open?: boolean;
+  title: string;
 }
 
 export function EntityFormDialog<T>({
-  confirmMessage = "Confirmar",
-  title,
-  initialValues = {},
-  fields,
-  open,
-  onSubmit,
-  onClose,
   children,
+  confirmMessage = "Confirmar",
+  fields,
+  initialValues = {},
+  onClose,
+  onSubmit,
+  open,
+  title,
 }: EntityFormDialogProps<T>) {
   const [formState, setFormState] = React.useState<Record<string, any>>({});
 
@@ -49,7 +45,7 @@ export function EntityFormDialog<T>({
   }, [open]);
 
   const handleChange = (name: string, value: string) => {
-    setFormState((prev) => ({ ...prev, [name]: value }));
+    setFormState(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = () => {
@@ -65,14 +61,14 @@ export function EntityFormDialog<T>({
       {children && <DialogTrigger asChild>{children}</DialogTrigger>}
       <DialogContent className="space-y-4">
         <DialogTitle title={title}>{title}</DialogTitle>
-        {fields.map((field) => (
+        {fields.map(field => (
           <div className="space-y-2" key={field.name}>
             <Label htmlFor={field.name}>{field.label}</Label>
             <Input
               id={field.name}
               type={field.type || "text"}
               value={formState[field.name] || ""}
-              onChange={(e) => handleChange(field.name, e.target.value)}
+              onChange={e => handleChange(field.name, e.target.value)}
             />
           </div>
         ))}

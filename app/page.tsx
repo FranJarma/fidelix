@@ -1,80 +1,59 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Button } from "@/components/ui/button";
-import { SidebarTrigger } from "@/components/ui/sidebar";
 import { BarChart3, Bell, Tag, Users } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { SidebarTrigger } from "@/components/ui/sidebar";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function Dashboard() {
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex h-full flex-col">
       <header className="border-b">
-        <div className="flex h-16 items-center px-4 gap-4">
+        <div className="flex h-16 items-center gap-4 px-4">
           <SidebarTrigger />
           <h1 className="text-xl font-bold">Dashboard</h1>
         </div>
       </header>
-      <main className="flex-1 p-6 space-y-6">
+      <main className="flex-1 space-y-6 p-6">
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <Card className="card-hover">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium">
-                Total Clientes
-              </CardTitle>
+              <CardTitle className="text-sm font-medium">Total Clientes</CardTitle>
               <Users className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">1,248</div>
-              <p className="text-xs text-muted-foreground">
-                +12% desde el mes pasado
-              </p>
+              <p className="text-xs text-muted-foreground">+12% desde el mes pasado</p>
             </CardContent>
           </Card>
           <Card className="card-hover">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium">
-                Promociones Activas
-              </CardTitle>
+              <CardTitle className="text-sm font-medium">Promociones Activas</CardTitle>
               <Tag className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">8</div>
-              <p className="text-xs text-muted-foreground">
-                3 finalizan esta semana
-              </p>
+              <p className="text-xs text-muted-foreground">3 finalizan esta semana</p>
             </CardContent>
           </Card>
           <Card className="card-hover">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium">
-                Notificaciones Enviadas
-              </CardTitle>
+              <CardTitle className="text-sm font-medium">Notificaciones Enviadas</CardTitle>
               <Bell className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">452</div>
-              <p className="text-xs text-muted-foreground">
-                +24% desde el mes pasado
-              </p>
+              <p className="text-xs text-muted-foreground">+24% desde el mes pasado</p>
             </CardContent>
           </Card>
           <Card className="card-hover">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium">
-                Tasa de Conversión
-              </CardTitle>
+              <CardTitle className="text-sm font-medium">Tasa de Conversión</CardTitle>
               <BarChart3 className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">32%</div>
-              <p className="text-xs text-muted-foreground">
-                +4% desde el mes pasado
-              </p>
+              <p className="text-xs text-muted-foreground">+4% desde el mes pasado</p>
             </CardContent>
           </Card>
         </div>
@@ -89,33 +68,25 @@ export default function Dashboard() {
             <Card>
               <CardHeader>
                 <CardTitle>Promociones Activas</CardTitle>
-                <CardDescription>
-                  Gestiona tus promociones actuales y crea nuevas.
-                </CardDescription>
+                <CardDescription>Gestiona tus promociones actuales y crea nuevas.</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                {promociones.map((promocion) => (
+                {promociones.map(promocion => (
                   <div
                     key={promocion.id}
-                    className="flex items-center justify-between p-4 border rounded-lg card-hover"
+                    className="card-hover flex items-center justify-between rounded-lg border p-4"
                   >
                     <div className="flex items-center gap-4">
-                      <div
-                        className={`p-2 rounded-md ${getPromocionColor(promocion.tipo)}`}
-                      >
+                      <div className={`rounded-md p-2 ${getPromocionColor(promocion.tipo)}`}>
                         {getPromocionIcon(promocion.tipo)}
                       </div>
                       <div>
                         <h3 className="font-medium">{promocion.nombre}</h3>
-                        <p className="text-sm text-muted-foreground">
-                          {promocion.descripcion}
-                        </p>
+                        <p className="text-sm text-muted-foreground">{promocion.descripcion}</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className="text-sm text-muted-foreground">
-                        {promocion.usos} usos
-                      </span>
+                      <span className="text-sm text-muted-foreground">{promocion.usos} usos</span>
                       <Button variant="outline" size="sm">
                         Ver
                       </Button>
@@ -135,13 +106,13 @@ export default function Dashboard() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {clientes.map((cliente) => (
+                  {clientes.map(cliente => (
                     <div
                       key={cliente.id}
-                      className="flex items-center justify-between p-4 border rounded-lg card-hover"
+                      className="card-hover flex items-center justify-between rounded-lg border p-4"
                     >
                       <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center">
+                        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-secondary">
                           <span className="font-medium">
                             {cliente.nombre.charAt(0)}
                             {cliente.apellido.charAt(0)}
@@ -151,9 +122,7 @@ export default function Dashboard() {
                           <h3 className="font-medium">
                             {cliente.nombre} {cliente.apellido}
                           </h3>
-                          <p className="text-sm text-muted-foreground">
-                            {cliente.email}
-                          </p>
+                          <p className="text-sm text-muted-foreground">{cliente.email}</p>
                         </div>
                       </div>
                       <div>
@@ -171,30 +140,22 @@ export default function Dashboard() {
             <Card>
               <CardHeader>
                 <CardTitle>Actividad Reciente</CardTitle>
-                <CardDescription>
-                  Las últimas acciones realizadas en la plataforma.
-                </CardDescription>
+                <CardDescription>Las últimas acciones realizadas en la plataforma.</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {actividades.map((actividad) => (
+                  {actividades.map(actividad => (
                     <div
                       key={actividad.id}
-                      className="flex items-start gap-4 p-4 border rounded-lg card-hover"
+                      className="card-hover flex items-start gap-4 rounded-lg border p-4"
                     >
-                      <div
-                        className={`p-2 rounded-md ${getActividadColor(actividad.tipo)}`}
-                      >
+                      <div className={`rounded-md p-2 ${getActividadColor(actividad.tipo)}`}>
                         {getActividadIcon(actividad.tipo)}
                       </div>
                       <div>
                         <h3 className="font-medium">{actividad.titulo}</h3>
-                        <p className="text-sm text-muted-foreground">
-                          {actividad.descripcion}
-                        </p>
-                        <p className="text-xs text-muted-foreground mt-1">
-                          {actividad.fecha}
-                        </p>
+                        <p className="text-sm text-muted-foreground">{actividad.descripcion}</p>
+                        <p className="mt-1 text-xs text-muted-foreground">{actividad.fecha}</p>
                       </div>
                     </div>
                   ))}

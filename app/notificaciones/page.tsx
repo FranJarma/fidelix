@@ -1,26 +1,22 @@
+import Link from "next/link";
+
+import { Bell, Plus, Send, Users } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Bell, Plus, Send, Users } from "lucide-react";
-import Link from "next/link";
 
 export default function NotificacionesPage() {
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex h-full flex-col">
       <header className="border-b">
-        <div className="flex h-16 items-center px-4 gap-4">
+        <div className="flex h-16 items-center gap-4 px-4">
           <SidebarTrigger />
           <h1 className="text-xl font-bold">Notificaciones</h1>
         </div>
       </header>
-      <div className="flex justify-between items-center px-6 pt-6 pb-2">
+      <div className="flex items-center justify-between px-6 pb-2 pt-6">
         <h2 className="text-lg font-medium">Panel de Notificaciones</h2>
         <Button asChild>
           <Link href="/notificaciones/nueva">
@@ -29,62 +25,46 @@ export default function NotificacionesPage() {
           </Link>
         </Button>
       </div>
-      <main className="flex-1 pb-6 px-6 space-y-6">
+      <main className="flex-1 space-y-6 px-6 pb-6">
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <Card className="card-hover">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium">
-                Total Enviadas
-              </CardTitle>
+              <CardTitle className="text-sm font-medium">Total Enviadas</CardTitle>
               <Bell className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">1,248</div>
-              <p className="text-xs text-muted-foreground">
-                +12% desde el mes pasado
-              </p>
+              <p className="text-xs text-muted-foreground">+12% desde el mes pasado</p>
             </CardContent>
           </Card>
           <Card className="card-hover">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium">
-                Tasa de Apertura
-              </CardTitle>
+              <CardTitle className="text-sm font-medium">Tasa de Apertura</CardTitle>
               <Bell className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">68%</div>
-              <p className="text-xs text-muted-foreground">
-                +5% desde el mes pasado
-              </p>
+              <p className="text-xs text-muted-foreground">+5% desde el mes pasado</p>
             </CardContent>
           </Card>
           <Card className="card-hover">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium">
-                Tasa de Conversión
-              </CardTitle>
+              <CardTitle className="text-sm font-medium">Tasa de Conversión</CardTitle>
               <Bell className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">32%</div>
-              <p className="text-xs text-muted-foreground">
-                +4% desde el mes pasado
-              </p>
+              <p className="text-xs text-muted-foreground">+4% desde el mes pasado</p>
             </CardContent>
           </Card>
           <Card className="card-hover">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium">
-                Usuarios Activos
-              </CardTitle>
+              <CardTitle className="text-sm font-medium">Usuarios Activos</CardTitle>
               <Users className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">856</div>
-              <p className="text-xs text-muted-foreground">
-                +8% desde el mes pasado
-              </p>
+              <p className="text-xs text-muted-foreground">+8% desde el mes pasado</p>
             </CardContent>
           </Card>
         </div>
@@ -105,12 +85,12 @@ export default function NotificacionesPage() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {notificacionesEnviadas.map((notificacion) => (
+                  {notificacionesEnviadas.map(notificacion => (
                     <div
                       key={notificacion.id}
-                      className="flex items-start gap-4 p-4 border rounded-lg"
+                      className="flex items-start gap-4 rounded-lg border p-4"
                     >
-                      <div className="p-2 rounded-md bg-blue-500">
+                      <div className="rounded-md bg-blue-500 p-2">
                         <Bell className="h-4 w-4 text-white" />
                       </div>
                       <div className="flex-1">
@@ -120,15 +100,11 @@ export default function NotificacionesPage() {
                             {notificacion.fecha}
                           </span>
                         </div>
-                        <p className="text-sm text-muted-foreground mt-1">
-                          {notificacion.mensaje}
-                        </p>
-                        <div className="flex items-center gap-4 mt-2">
+                        <p className="mt-1 text-sm text-muted-foreground">{notificacion.mensaje}</p>
+                        <div className="mt-2 flex items-center gap-4">
                           <div className="flex items-center gap-1 text-xs text-muted-foreground">
                             <Users className="h-3 w-3" />
-                            <span>
-                              {notificacion.destinatarios} destinatarios
-                            </span>
+                            <span>{notificacion.destinatarios} destinatarios</span>
                           </div>
                           <div className="flex items-center gap-1 text-xs text-muted-foreground">
                             <Bell className="h-3 w-3" />
@@ -147,18 +123,17 @@ export default function NotificacionesPage() {
               <CardHeader>
                 <CardTitle>Notificaciones Programadas</CardTitle>
                 <CardDescription>
-                  Notificaciones que se enviarán automáticamente en fechas
-                  futuras.
+                  Notificaciones que se enviarán automáticamente en fechas futuras.
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {notificacionesProgramadas.map((notificacion) => (
+                  {notificacionesProgramadas.map(notificacion => (
                     <div
                       key={notificacion.id}
-                      className="flex items-start gap-4 p-4 border rounded-lg"
+                      className="flex items-start gap-4 rounded-lg border p-4"
                     >
-                      <div className="p-2 rounded-md bg-green-500">
+                      <div className="rounded-md bg-green-500 p-2">
                         <Bell className="h-4 w-4 text-white" />
                       </div>
                       <div className="flex-1">
@@ -168,17 +143,13 @@ export default function NotificacionesPage() {
                             Programada: {notificacion.fechaEnvio}
                           </span>
                         </div>
-                        <p className="text-sm text-muted-foreground mt-1">
-                          {notificacion.mensaje}
-                        </p>
-                        <div className="flex items-center gap-4 mt-2">
+                        <p className="mt-1 text-sm text-muted-foreground">{notificacion.mensaje}</p>
+                        <div className="mt-2 flex items-center gap-4">
                           <div className="flex items-center gap-1 text-xs text-muted-foreground">
                             <Users className="h-3 w-3" />
-                            <span>
-                              {notificacion.destinatarios} destinatarios
-                            </span>
+                            <span>{notificacion.destinatarios} destinatarios</span>
                           </div>
-                          <div className="flex justify-end mt-2">
+                          <div className="mt-2 flex justify-end">
                             <Button variant="outline" size="sm">
                               <Send className="mr-2 h-3 w-3" />
                               Enviar ahora
@@ -197,24 +168,21 @@ export default function NotificacionesPage() {
               <CardHeader>
                 <CardTitle>Plantillas de Notificaciones</CardTitle>
                 <CardDescription>
-                  Plantillas predefinidas para enviar notificaciones
-                  rápidamente.
+                  Plantillas predefinidas para enviar notificaciones rápidamente.
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="grid gap-4 md:grid-cols-2">
-                  {plantillasNotificaciones.map((plantilla) => (
-                    <div key={plantilla.id} className="p-4 border rounded-lg">
-                      <div className="flex items-center justify-between mb-2">
+                  {plantillasNotificaciones.map(plantilla => (
+                    <div key={plantilla.id} className="rounded-lg border p-4">
+                      <div className="mb-2 flex items-center justify-between">
                         <h3 className="font-medium">{plantilla.nombre}</h3>
-                        <div className="p-1 rounded-md bg-purple-500">
+                        <div className="rounded-md bg-purple-500 p-1">
                           <Bell className="h-3 w-3 text-white" />
                         </div>
                       </div>
-                      <p className="text-sm text-muted-foreground mb-4">
-                        {plantilla.descripcion}
-                      </p>
-                      <div className="p-3 bg-muted rounded-md text-sm mb-4">
+                      <p className="mb-4 text-sm text-muted-foreground">{plantilla.descripcion}</p>
+                      <div className="mb-4 rounded-md bg-muted p-3 text-sm">
                         {plantilla.contenido}
                       </div>
                       <div className="flex justify-end gap-2">
@@ -240,8 +208,7 @@ const notificacionesEnviadas = [
   {
     id: 1,
     titulo: "Promoción 2x1 en Cafés",
-    mensaje:
-      "¡Aprovecha nuestra promoción 2x1 en cafés! Válida hasta el 31 de mayo.",
+    mensaje: "¡Aprovecha nuestra promoción 2x1 en cafés! Válida hasta el 31 de mayo.",
     fecha: "Hoy, 10:23 AM",
     destinatarios: 1248,
     aperturas: 856,
@@ -270,8 +237,7 @@ const notificacionesProgramadas = [
   {
     id: 1,
     titulo: "Acumula puntos dobles",
-    mensaje:
-      "A partir del 1 de junio, acumula puntos dobles por cada $100 de compra.",
+    mensaje: "A partir del 1 de junio, acumula puntos dobles por cada $100 de compra.",
     fechaEnvio: "31/05/2025",
     destinatarios: 1248,
   },
@@ -311,7 +277,6 @@ const plantillasNotificaciones = [
     id: 4,
     nombre: "Recordatorio de puntos",
     descripcion: "Plantilla para recordar puntos acumulados",
-    contenido:
-      "¡Hola [nombre]! Tienes [puntos] puntos acumulados. ¡Canjéalos antes de [fecha]!",
+    contenido: "¡Hola [nombre]! Tienes [puntos] puntos acumulados. ¡Canjéalos antes de [fecha]!",
   },
 ];

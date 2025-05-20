@@ -1,33 +1,33 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { FiPlus, FiBell, FiTrash } from "react-icons/fi";
-import { EntityLayout } from "@/components/shared/layout/EntityLayout";
-import { EntityFormDialog } from "@/components/shared/forms/EntityFormDialog";
+import { FiBell, FiPlus, FiTrash } from "react-icons/fi";
+
+import { clientColumns } from "../constants/columns";
 import type { Client } from "../types/clients";
 import { mockClients } from "../utils/mock";
 import { ClientStatistics } from "./ClientStatistics";
+
+import { EntityFormDialog } from "@/components/shared/forms/EntityFormDialog";
+import { EntityLayout } from "@/components/shared/layout/entity-layout/EntityLayout";
+import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/datatable";
-import { clientColumns } from "../constants/columns";
 
 export function ClientsPage() {
   const [clients, setClients] = useState<Client[]>(mockClients);
   const [editingClient, setEditingClient] = useState<Client | null>(null);
 
   const handleCreate = (newClient: Client) => {
-    setClients((prev) => [...prev, newClient]);
+    setClients(prev => [...prev, newClient]);
   };
 
   const handleUpdate = (updated: Client) => {
-    setClients((prev) => prev.map((c) => (c.id === updated.id ? updated : c)));
+    setClients(prev => prev.map(c => (c.id === updated.id ? updated : c)));
     setEditingClient(null);
   };
 
   const handleDelete = (selected: Client[]) => {
-    setClients((prev) =>
-      prev.filter((c) => !selected.some((r) => r.id === c.id)),
-    );
+    setClients(prev => prev.filter(c => !selected.some(r => r.id === c.id)));
   };
 
   const handleNotify = (selected: Client[]) => {
@@ -64,7 +64,7 @@ export function ClientsPage() {
         columns={clientColumns}
         rowKey="id"
         searchablePlaceholder="Buscar cliente..."
-        onRowClick={(client) => setEditingClient(client)}
+        onRowClick={client => setEditingClient(client)}
         bulkActions={[
           {
             id: "delete",

@@ -1,7 +1,7 @@
 export enum SourceEnum {
-  ON_SITE = "En el Negocio",
-  LANDING_PAGE = "Landing Page",
   INSTAGRAM = "Instagram",
-  TWITTER = "Twitter",
+  LANDING_PAGE = "Landing Page",
+  ON_SITE = "En el Negocio",
   TIKTOK = "TikTok",
+  TWITTER = "Twitter",
 }
