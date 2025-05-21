@@ -1,5 +1,6 @@
 import type { Client } from "../types/clients";
 
+import { LevelEnum } from "@/types/levels";
 import { SourceEnum } from "@/types/sources";
 
 export const mockClients: Client[] = [
@@ -9,7 +10,7 @@ export const mockClients: Client[] = [
     lastName: "González",
     email: "maria@example.com",
     phone: "+54 911 1234 5678",
-    level: "oro",
+    level: LevelEnum.GOLD,
     points: 1200,
     source: SourceEnum.LANDING_PAGE,
   },
@@ -19,7 +20,7 @@ export const mockClients: Client[] = [
     lastName: "Pérez",
     email: "juan@example.com",
     phone: "+54 911 2345 6789",
-    level: "plata",
+    level: LevelEnum.SILVER,
     points: 850,
     source: SourceEnum.LANDING_PAGE,
   },
@@ -29,7 +30,7 @@ export const mockClients: Client[] = [
     lastName: "Rodríguez",
     email: "ana@example.com",
     phone: "+54 911 3456 7890",
-    level: "bronce",
+    level: LevelEnum.BRONZE,
     points: 430,
     source: SourceEnum.INSTAGRAM,
   },

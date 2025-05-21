@@ -3,56 +3,42 @@
 import * as React from "react";
 import { FiCheck } from "react-icons/fi";
 
+import { EntityFormDialogProps } from "./types/entityFormDialog";
+
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-
-interface Field {
-  label: string;
-  name: string;
-  type?: string;
-}
-
-interface EntityFormDialogProps<T> {
-  children?: React.ReactNode;
-  confirmMessage?: string;
-  fields: Field[];
-  initialValues?: Partial<T>;
-  mode?: "create" | "edit";
-  onClose?: () => void;
-  onSubmit: (values: T) => void;
-  open?: boolean;
-  title: string;
-}
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { ACTIONS_CONSTS } from "@/constants/actions";
+import { FormFieldTypeEnum, FormModeEnum } from "@/types/forms";
 
 export function EntityFormDialog<T>({
   children,
-  confirmMessage = "Confirmar",
+  confirmMessage = ACTIONS_CONSTS.CONFIRM_ACTION,
   fields,
   initialValues = {},
+  mode = FormModeEnum.CREATE,
   onClose,
   onSubmit,
   open,
   title,
 }: EntityFormDialogProps<T>) {
-  const [formState, setFormState] = React.useState<Record<string, any>>({});
+  const [formState, setFormState] = React.useState<Record<string, any>>(initialValues);
 
-  React.useEffect(() => {
-    if (open && initialValues) {
-      setFormState(initialValues);
-    }
-  }, [open]);
-
-  const handleChange = (name: string, value: string) => {
+  const handleChange = (name: string, value: any) => {
     setFormState(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = () => {
-    onSubmit({
-      ...formState,
-      id: formState.id || Date.now(),
-    } as T);
+    const id = (initialValues as any)?.id ?? Date.now();
+    onSubmit({ ...formState, id } as T);
     if (onClose) onClose();
   };
 
@@ -60,21 +46,46 @@ export function EntityFormDialog<T>({
     <Dialog open={open} onOpenChange={onClose}>
       {children && <DialogTrigger asChild>{children}</DialogTrigger>}
       <DialogContent className="space-y-4">
-        <DialogTitle title={title}>{title}</DialogTitle>
-        {fields.map(field => (
-          <div className="space-y-2" key={field.name}>
-            <Label htmlFor={field.name}>{field.label}</Label>
-            <Input
-              id={field.name}
-              type={field.type || "text"}
-              value={formState[field.name] || ""}
-              onChange={e => handleChange(field.name, e.target.value)}
-            />
+        <DialogTitle>{title}</DialogTitle>
+
+        {fields.map(({ label, name, options, type = "text" }) => (
+          <div className="space-y-2" key={name}>
+            <Label htmlFor={name}>{label}</Label>
+
+            {type === FormFieldTypeEnum.SELECT && options ? (
+              <Select value={formState[name] || ""} onValueChange={val => handleChange(name, val)}>
+                <SelectTrigger>
+                  <SelectValue placeholder={`Seleccionar ${label.toLowerCase()}`} />
+                </SelectTrigger>
+                <SelectContent>
+                  {options.map(opt => (
+                    <SelectItem key={opt.value} value={opt.value}>
+                      {opt.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            ) : type === FormFieldTypeEnum.TEXTAREA ? (
+              <textarea
+                className="w-full rounded-md border border-input bg-background p-2 text-sm shadow-sm"
+                id={name}
+                value={formState[name] || ""}
+                onChange={e => handleChange(name, e.target.value)}
+              />
+            ) : (
+              <Input
+                id={name}
+                type={type}
+                value={formState[name] || ""}
+                onChange={e => handleChange(name, e.target.value)}
+              />
+            )}
           </div>
         ))}
+
         <Button className="w-full" onClick={handleSubmit}>
-          <FiCheck />
-          {confirmMessage}
+          <FiCheck className="mr-2" />
+          {mode === FormModeEnum.EDIT ? ACTIONS_CONSTS.UPDATE_ACTION : confirmMessage}
         </Button>
       </DialogContent>
     </Dialog>

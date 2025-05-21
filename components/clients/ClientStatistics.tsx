@@ -1,6 +1,6 @@
 import { FiStar, FiUserPlus, FiUsers } from "react-icons/fi";
 
-import type { Client } from "../types/clients";
+import type { Client } from "./types/clients";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 

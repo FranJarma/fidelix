@@ -1,19 +1,10 @@
 "use client";
 
 import * as React from "react";
-import { FiBell, FiTrash } from "react-icons/fi";
 
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import {
   ColumnDef,
   flexRender,
@@ -45,7 +36,6 @@ export function DataTable<TData>({
   columns,
   data,
   onRowClick,
-  rowKey,
   searchablePlaceholder = "Buscar...",
 }: DataTableProps<TData>) {
   const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({});
