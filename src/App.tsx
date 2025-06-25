@@ -13,14 +13,10 @@ import { ProtectedRoute } from "./components/ProtectedRoute";
 import { NotFoundPage } from "./components/shared/not-found";
 import { AuthProvider } from "./contexts/AuthContext";
 import { OfflineProvider } from "./contexts/OfflineContext";
-import { MaterialsPage } from "./features/materials/materials-page";
 import { DashboardPage } from "./pages/DashboardPage";
 import { LoginPage } from "./pages/LoginPage";
-import { MachineryPage } from "./pages/MachineryPage";
-import { MovementsPage } from "./pages/MovementsPage";
-import { ReportsPage } from "./pages/ReportsPage";
-import { UsersPage } from "./pages/UsersPage";
 import { theme } from "./theme";
+import { ClientsPage } from "./features/clients/clients-page";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -55,20 +51,7 @@ export default function App() {
                             element={<DashboardPage />}
                             path="/dashboard"
                           />
-                          <Route
-                            element={<MaterialsPage />}
-                            path="/materiales"
-                          />
-                          <Route
-                            element={<MachineryPage />}
-                            path="/maquinaria"
-                          />
-                          <Route
-                            element={<MovementsPage />}
-                            path="/movimientos"
-                          />
-                          <Route element={<UsersPage />} path="/usuarios" />
-                          <Route element={<ReportsPage />} path="/reportes" />
+                          <Route element={<ClientsPage />} path="/clientes" />
                           <Route
                             element={<Navigate replace to="/dashboard" />}
                             path="/"

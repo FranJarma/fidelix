@@ -24,6 +24,8 @@ type WithEntityLayoutProps<T> = {
   data: T[];
   emptyLabel?: string;
   onCreate?: () => void;
+  onDelete?: (data: T) => void;
+  onEdit?: (data: T) => void;
   renderFormDialog?: ReactNode;
   requiredPermissions?: string[];
   subtitle?: string;
@@ -32,11 +34,11 @@ type WithEntityLayoutProps<T> = {
 
 export function withEntityLayout<T extends object, P extends object>(
   Component: React.ComponentType<P>,
-  layoutProps: WithEntityLayoutProps<T>,
+  layoutProps: WithEntityLayoutProps<T>
 ) {
   return function WrappedComponent(props: P) {
     const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+    const isMobile = useMediaQuery(theme.breakpoints.up("xs"));
 
     const { hasPermissions } = useAuth();
     const navigate = useNavigate();
@@ -47,11 +49,13 @@ export function withEntityLayout<T extends object, P extends object>(
       createRoute,
       data,
       emptyLabel = "No hay resultados",
-      onCreate,
       renderFormDialog,
       requiredPermissions = ["read"],
       subtitle,
       title,
+      onCreate,
+      onEdit,
+      onDelete,
     } = layoutProps;
 
     if (!hasPermissions(requiredPermissions)) {
@@ -110,7 +114,12 @@ export function withEntityLayout<T extends object, P extends object>(
         {data.length === 0 ? (
           <Alert severity="info">{emptyLabel}</Alert>
         ) : (
-          <DataTable columns={columns} data={data} />
+          <DataTable
+            columns={columns}
+            data={data}
+            onDelete={onDelete}
+            onEdit={onEdit}
+          />
         )}
 
         {renderFormDialog && renderFormDialog}

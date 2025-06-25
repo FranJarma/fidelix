@@ -7,17 +7,29 @@ import { DataTableView } from "./datatable-view";
 interface DataTableProps<T> {
   columns: ColumnDef<T, any>[];
   data: T[];
+  showActions?: boolean;
+  onEdit?: (row: T) => void;
+  onDelete?: (row: T) => void;
 }
 
 export function DataTable<T extends object>({
   columns,
   data,
+  showActions = true,
+  onEdit,
+  onDelete,
 }: DataTableProps<T>) {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.up("sm"));
+  const isMobile = useMediaQuery(theme.breakpoints.up("xs"));
 
-  return isMobile ? (
-    <DataTableView columns={columns} data={data} />
+  return !isMobile ? (
+    <DataTableView
+      columns={columns}
+      data={data}
+      showActions={showActions}
+      onEdit={onEdit}
+      onDelete={onDelete}
+    />
   ) : (
     <DataListView columns={columns} data={data} />
   );

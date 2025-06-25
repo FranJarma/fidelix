@@ -18,9 +18,17 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 const rolePermissions = {
-  admin: ["read", "write", "delete", "manage_users", "view_reports"],
+  admin: [
+    "read",
+    "write",
+    "delete",
+    "manage_clients",
+    "manage_promotions",
+    "manage_notifications",
+    "manage_statistics",
+    "my_account",
+  ],
   operator: ["read", "write", "view_movements"],
-  viewer: ["read"],
 };
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
@@ -50,7 +58,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         .select("*")
         .eq("id", authUser.id)
         .single();
-
       setUser({ ...authUser, profile: profile || undefined });
     } catch (error) {
       console.error("Error loading user profile:", error);
@@ -81,7 +88,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const hasPermissions = (permissions: string[]): boolean => {
     if (!user?.profile?.role) return false;
-    const userPerms = rolePermissions[user.profile.role] || [];
+    const userPerms =
+      rolePermissions[user.profile.role as keyof typeof rolePermissions] || [];
     return permissions.every((perm) => userPerms.includes(perm));
   };
 

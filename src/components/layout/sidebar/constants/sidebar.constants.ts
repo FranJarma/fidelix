@@ -1,11 +1,10 @@
 import {
   Analytics as AnalyticsIcon,
-  Build as MachineryIcon,
   Dashboard as DashboardIcon,
-  Inventory as InventoryIcon,
-  People as PeopleIcon,
+  CardGiftcard as GiftIcon,
+  NotificationAdd as NotificationsIcon,
   Settings as SettingsIcon,
-  SwapHoriz as MovementsIcon,
+  People as UsersIcon,
 } from "@mui/icons-material";
 
 import type { SidebarItemProps } from "./../types/sidebar.types";
@@ -18,40 +17,34 @@ export const menuItems: SidebarItemProps[] = [
     permissions: ["read"],
   },
   {
-    label: "Materiales",
-    path: "/materiales",
-    icon: InventoryIcon,
-    permissions: ["read"],
+    label: "Clientes",
+    path: "/clientes",
+    icon: UsersIcon,
+    permissions: ["manage_clients"],
   },
   {
-    label: "Maquinaria",
-    path: "/maquinaria",
-    icon: MachineryIcon,
-    permissions: ["read"],
+    label: "Promociones",
+    path: "/promociones",
+    icon: GiftIcon,
+    permissions: ["manage_promotions"],
   },
   {
-    label: "Movimientos",
-    path: "/movimientos",
-    icon: MovementsIcon,
-    permissions: ["read"],
+    label: "Notificaciones",
+    path: "/notificaciones",
+    icon: NotificationsIcon,
+    permissions: ["manage_notifications"],
   },
   {
-    label: "Usuarios",
-    path: "/usuarios",
-    icon: PeopleIcon,
-    permissions: ["manage_users"],
-  },
-  {
-    label: "Reportes",
-    path: "/reportes",
+    label: "Estadísticas",
+    path: "/estadisticas",
     icon: AnalyticsIcon,
-    permissions: ["read"],
+    permissions: ["manage_statistics"],
   },
   {
     label: "Mi cuenta",
     path: "/mi-cuenta",
     icon: SettingsIcon,
-    permissions: ["read"],
+    permissions: ["my_account"],
   },
 ];
 

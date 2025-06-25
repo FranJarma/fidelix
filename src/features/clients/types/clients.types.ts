@@ -1,0 +1,21 @@
+export type Client = {
+  address: string;
+  birthday?: string;
+  city: string;
+  country: string;
+  createdAt: string;
+  email: string;
+  fullName: string;
+  gender?: "male" | "female" | "other" | "not_specified";
+  id: string;
+  isActive: boolean;
+  level: "bronze" | "silver" | "gold" | "platinum";
+  notes?: string;
+  phone: string;
+  points: number;
+  province: string;
+  source?: "in_store" | "web" | "whatsapp" | "manual";
+  tags?: string[];
+  tenantId: string;
+  updatedAt: string;
+};
