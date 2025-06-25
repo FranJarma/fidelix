@@ -20,7 +20,7 @@ export function DataTable<T extends object>({
   onDelete,
 }: DataTableProps<T>) {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.up("xs"));
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
   return !isMobile ? (
     <DataTableView

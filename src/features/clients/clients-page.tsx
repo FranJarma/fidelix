@@ -2,15 +2,11 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { ClientFormDialog } from "./components/client-form-dialog";
-import {
-  CLIENTS_CONSTANTS,
-  getClientsColumns,
-  mockClients,
-} from "./constants/clients.constants";
+import { CLIENTS_CONSTANTS, mockClients } from "./constants/clients.constants";
 import type { Client } from "./types/clients.types";
-
 import { withEntityLayout } from "@/components/shared/with-entity-layout";
-import { FORM_CONSTANTS } from "@/constants/form.constants";
+import { useClientColumns } from "./hooks/useClientColumns";
+import { getDialogActionLabel, getDialogTitle } from "@/utils/dialogUtils";
 
 function RawClientsPage() {
   return null;
@@ -22,6 +18,7 @@ export const ClientsPage = () => {
   const [open, setOpen] = useState(false);
 
   const form = useForm<Client>();
+  const columns = useClientColumns();
 
   const handleClose = () => {
     setOpen(false);
@@ -33,8 +30,8 @@ export const ClientsPage = () => {
     if (editingClient) {
       setClients((prev) =>
         prev.map((client) =>
-          client.id === editingClient.id ? { ...data, id: client.id } : client,
-        ),
+          client.id === editingClient.id ? { ...data, id: client.id } : client
+        )
       );
     } else {
       setClients((prev) => [...prev, { ...data, id: Date.now().toString() }]);
@@ -63,31 +60,25 @@ export const ClientsPage = () => {
     title: CLIENTS_CONSTANTS.PAGE_TITLE,
     subtitle: CLIENTS_CONSTANTS.PAGE_SUBTITLE,
     createLabel: CLIENTS_CONSTANTS.CREATE_LABEL,
-    columns: getClientsColumns(),
+    columns,
     data: clients,
     onCreate: handleAdd,
     onDelete: handleDelete,
     onEdit: handleEdit,
-    renderFormDialog: (
+  });
+
+  return (
+    <>
+      <Wrapped />
       <ClientFormDialog
+        confirmButtonTitle={getDialogActionLabel(editingClient, "Cliente")}
+        dialogTitle={getDialogTitle(editingClient, "Cliente", "fullName")}
         editing={editingClient}
         form={form}
         open={open}
-        confirmButtonTitle={
-          editingClient
-            ? FORM_CONSTANTS.EDIT_LABEL
-            : FORM_CONSTANTS.CONFIRM_LABEL
-        }
-        dialogTitle={
-          editingClient
-            ? CLIENTS_CONSTANTS.EDIT_LABEL
-            : CLIENTS_CONSTANTS.CREATE_LABEL
-        }
         onClose={handleClose}
         onSubmit={form.handleSubmit(handleSubmit)}
       />
-    ),
-  });
-
-  return <Wrapped />;
+    </>
+  );
 };

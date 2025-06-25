@@ -1,9 +1,5 @@
-import type { ColumnDef } from "@tanstack/react-table";
+import { GenderEnum, LevelEnum, SourceEnum } from "@/types/entities.types";
 import type { Client } from "../types/clients.types";
-
-interface GetColumnsOptions {
-  onEdit: (client: Client) => void;
-}
 
 export const CLIENTS_CONSTANTS = {
   PAGE_TITLE: "Gestión de clientes",
@@ -13,54 +9,54 @@ export const CLIENTS_CONSTANTS = {
   DELETE_LABEL: "Eliminar Cliente",
 };
 
-export const getClientsColumns = (): ColumnDef<Client>[] => [
-  {
-    accessorKey: "fullName",
-    header: "Nombre completo",
-  },
-  {
-    accessorKey: "email",
-    header: "Email",
-  },
-  {
-    accessorKey: "phone",
-    header: "Teléfono",
-  },
-  {
-    accessorKey: "city",
-    header: "Ciudad",
-  },
-  {
-    accessorKey: "province",
-    header: "Provincia",
-  },
-  {
-    accessorKey: "country",
-    header: "País",
-  },
-  {
-    accessorKey: "points",
-    header: "Puntos",
-  },
-  {
-    accessorKey: "level",
-    header: "Nivel",
-    cell: ({ row }) => {
-      const level = row.original.level;
-      return level.charAt(0).toUpperCase() + level.slice(1);
-    },
-  },
-  {
-    accessorKey: "source",
-    header: "Origen",
-    cell: ({ row }) => row.original.source ?? "—",
-  },
-  {
-    accessorKey: "isActive",
-    header: "Activo",
-    cell: ({ row }) => (row.original.isActive ? "Sí" : "No"),
-  },
-];
+export const CLIENT_LEVEL_LABELS: Record<Client["level"], string> = {
+  bronze: "Bronce",
+  silver: "Plata",
+  gold: "Oro",
+  platinum: "Platino",
+};
+
+export const CLIENT_LEVEL_COLORS: Record<Client["level"], string> = {
+  bronze: "#cd7f32",
+  silver: "#c0c0c0",
+  gold: "#ffd700",
+  platinum: "#e5e4e2",
+};
+
+export const CLIENT_SOURCE_LABELS: Record<Client["source"], string> = {
+  in_store: "En tienda",
+  web: "Página Web",
+  whatsapp: "WhatsApp",
+  manual: "Manual",
+};
+
+export const CLIENT_SOURCE_COLORS: Record<
+  Client["source"],
+  "default" | "primary" | "secondary" | "success" | "warning" | "info" | "error"
+> = {
+  in_store: "primary",
+  web: "info",
+  whatsapp: "success",
+  manual: "default",
+};
+
+export const CLIENT_FORM_TITLES = {
+  CONTACT_DATA: "Datos de contacto",
+  FIDELIZATION_DATA: "Datos de fidelización",
+  UBICATION_DATA: "Datos de ubicación",
+};
+
+export const DEFAULT_CLIENT_FORM_VALUES: Client = {
+  address: "",
+  city: "",
+  country: "Argentina",
+  email: "",
+  fullName: "",
+  phone: "",
+  province: "",
+  points: 0,
+  source: SourceEnum.Web,
+};
 
 export const mockClients: Client[] = [
   {
@@ -73,12 +69,12 @@ export const mockClients: Client[] = [
     province: "Buenos Aires",
     country: "Argentina",
     birthday: "1990-03-15",
-    gender: "male",
+    gender: GenderEnum.Male,
     createdAt: "2024-06-01T12:00:00Z",
     updatedAt: "2024-06-20T15:00:00Z",
     points: 150,
-    level: "silver",
-    source: "in_store",
+    level: LevelEnum.Silver,
+    source: SourceEnum.InStore,
     notes: "Cliente frecuente",
     tags: ["VIP", "fútbol"],
     isActive: true,
@@ -94,12 +90,12 @@ export const mockClients: Client[] = [
     province: "Santa Fe",
     country: "Argentina",
     birthday: "1985-12-22",
-    gender: "female",
+    gender: GenderEnum.Female,
     createdAt: "2024-05-15T10:30:00Z",
     updatedAt: "2024-06-22T14:20:00Z",
     points: 320,
-    level: "gold",
-    source: "web",
+    level: LevelEnum.Gold,
+    source: SourceEnum.Web,
     tags: ["cumpleañera"],
     isActive: true,
     tenantId: "tenant_01",
@@ -116,8 +112,8 @@ export const mockClients: Client[] = [
     createdAt: "2024-01-10T11:00:00Z",
     updatedAt: "2024-05-30T11:30:00Z",
     points: 80,
-    level: "bronze",
-    source: "manual",
+    level: LevelEnum.Bronze,
+    source: SourceEnum.Manual,
     isActive: false,
     tenantId: "tenant_02",
   },
@@ -131,12 +127,12 @@ export const mockClients: Client[] = [
     province: "Santa Fe",
     country: "Argentina",
     birthday: "1999-09-09",
-    gender: "female",
+    gender: GenderEnum.Female,
     createdAt: "2024-04-01T08:20:00Z",
     updatedAt: "2024-06-10T18:45:00Z",
     points: 210,
-    level: "silver",
-    source: "whatsapp",
+    level: LevelEnum.Silver,
+    source: SourceEnum.WhatsApp,
     tags: ["vegan"],
     isActive: true,
     tenantId: "tenant_01",
@@ -153,8 +149,8 @@ export const mockClients: Client[] = [
     createdAt: "2023-12-12T10:10:00Z",
     updatedAt: "2024-06-01T09:00:00Z",
     points: 45,
-    level: "bronze",
-    source: "in_store",
+    level: LevelEnum.Bronze,
+    source: SourceEnum.InStore,
     isActive: true,
     tenantId: "tenant_03",
   },
@@ -168,12 +164,12 @@ export const mockClients: Client[] = [
     province: "Buenos Aires",
     country: "Argentina",
     birthday: "2001-07-07",
-    gender: "female",
+    gender: GenderEnum.Female,
     createdAt: "2024-02-20T14:40:00Z",
     updatedAt: "2024-06-21T13:10:00Z",
     points: 500,
-    level: "platinum",
-    source: "web",
+    level: LevelEnum.Platinum,
+    source: SourceEnum.Web,
     tags: ["celíaca"],
     isActive: true,
     tenantId: "tenant_01",
@@ -190,8 +186,8 @@ export const mockClients: Client[] = [
     createdAt: "2024-06-10T15:00:00Z",
     updatedAt: "2024-06-10T15:00:00Z",
     points: 120,
-    level: "silver",
-    source: "web",
+    level: LevelEnum.Silver,
+    source: SourceEnum.Web,
     isActive: true,
     tenantId: "tenant_02",
   },
@@ -207,8 +203,8 @@ export const mockClients: Client[] = [
     createdAt: "2024-06-01T17:30:00Z",
     updatedAt: "2024-06-19T11:00:00Z",
     points: 90,
-    level: "bronze",
-    source: "whatsapp",
+    level: LevelEnum.Bronze,
+    source: SourceEnum.WhatsApp,
     isActive: true,
     tenantId: "tenant_01",
   },
@@ -224,8 +220,8 @@ export const mockClients: Client[] = [
     createdAt: "2024-05-10T09:30:00Z",
     updatedAt: "2024-06-15T12:15:00Z",
     points: 260,
-    level: "gold",
-    source: "manual",
+    level: LevelEnum.Gold,
+    source: SourceEnum.Manual,
     isActive: true,
     tenantId: "tenant_03",
   },
