@@ -1,3 +1,5 @@
+import type { GenderEnum, LevelEnum, SourceEnum } from "@/types/entities.types";
+
 export type Client = {
   address: string;
   birthday?: string;
@@ -6,15 +8,15 @@ export type Client = {
   createdAt: string;
   email: string;
   fullName: string;
-  gender?: "male" | "female" | "other" | "not_specified";
+  gender?: GenderEnum;
   id: string;
   isActive: boolean;
-  level: "bronze" | "silver" | "gold" | "platinum";
+  level: LevelEnum;
   notes?: string;
   phone: string;
   points: number;
   province: string;
-  source?: "in_store" | "web" | "whatsapp" | "manual";
+  source?: SourceEnum;
   tags?: string[];
   tenantId: string;
   updatedAt: string;

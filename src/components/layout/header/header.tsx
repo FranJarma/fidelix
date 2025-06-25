@@ -2,14 +2,7 @@ import {
   Menu as MenuIcon,
   MenuOpen as MenuOpenIcon,
 } from "@mui/icons-material";
-import {
-  AppBar,
-  Box,
-  IconButton,
-  Stack,
-  Toolbar,
-  Tooltip,
-} from "@mui/material";
+import { AppBar, Box, IconButton, Toolbar, Tooltip } from "@mui/material";
 
 import { SIDEBAR_CONSTANTS } from "@/components/layout/sidebar/constants/sidebar.constants";
 import { theme } from "@/theme";
@@ -35,6 +28,7 @@ export function Header({
     <AppBar
       position="fixed"
       sx={{
+        height: 64,
         width: { md: appBarWidth },
         ml: { md: appBarMarginLeft },
         bgcolor: "background.paper",

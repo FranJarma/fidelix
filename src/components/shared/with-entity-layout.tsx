@@ -38,7 +38,7 @@ export function withEntityLayout<T extends object, P extends object>(
 ) {
   return function WrappedComponent(props: P) {
     const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.up("xs"));
+    const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
     const { hasPermissions } = useAuth();
     const navigate = useNavigate();
